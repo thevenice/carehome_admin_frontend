@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilter, faArrowAltCircleRight } from '@fortawesome/free-solid-svg-icons';
+import { faFilter, faArrowAltCircleRight, faAdd } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../../utils/axios';
 
 const UserTable = () => {
@@ -65,6 +65,10 @@ const UserTable = () => {
     }));
   };
 
+  const handleCreateClick = () => {
+    navigate(`/users/create`)
+  }
+
   const handleViewUser = (userId: string) => {
     navigate(`/users/${userId}`);
   };
@@ -76,6 +80,15 @@ const UserTable = () => {
           All Users
         </h4>
         <div className="flex items-center space-x-2">
+        <button
+          onClick={() =>
+            handleCreateClick()
+          }
+          className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
+        >
+          <FontAwesomeIcon icon={faAdd} />
+          Create User
+        </button>
           <FontAwesomeIcon icon={faFilter} className="text-gray-500" />
           <input
             type="number"

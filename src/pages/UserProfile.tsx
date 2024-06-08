@@ -43,6 +43,7 @@ const UserProfile: React.FC = () => {
       console.error('Error fetching user data', error);
     }
   };
+
   const handleEditClick = (user_id: string | null) => {
     if (user_id === null) {
       console.log(null)

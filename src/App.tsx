@@ -23,6 +23,7 @@ import UpdateCareHomeForm from './pages/UpdateCareHomeForm'
 import Users from './pages/Users'
 import UserProfile from './pages/UserProfile'
 import UpdateUserProfileForm from './pages/UpdateUserProfile'
+import CreateUserProfile from './pages/CreateUserProfile'
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true)
@@ -131,6 +132,20 @@ function App() {
             <>
               <PageTitle title="Update user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <UpdateUserProfileForm />
+            </>
+          ) : (
+            <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
+          )
+        }
+      />
+
+      <Route
+        path="/users/create" // Adjust the parameter name here to :userId
+        element={
+          token ? ( // Only render UpdateUserProfileForm if signed in
+            <>
+              <PageTitle title="Create user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <CreateUserProfile />
             </>
           ) : (
             <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null

@@ -20,6 +20,9 @@ import Alerts from './pages/UiElements/Alerts'
 import Buttons from './pages/UiElements/Buttons'
 import useStore from './store/store'
 import UpdateCareHomeForm from './pages/UpdateCareHomeForm'
+import Users from './pages/Users'
+import UserProfile from './pages/UserProfile'
+import UpdateUserProfileForm from './pages/UpdateUserProfile'
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true)
@@ -92,6 +95,21 @@ function App() {
         }
       />
       <Route
+        path="/users/:user_id"
+        element={
+          token ? ( // Only render User data if signed in
+            <>
+              {console.log('token', token)}
+              <PageTitle title="Users Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <UserProfile />
+            </>
+          ) : (
+            <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
+          )
+        }
+      />
+
+      <Route
         path="/carehome-profile/update/:care_home_id"
         element={
           token ? ( // Only render CareHomeProfile if signed in
@@ -99,6 +117,20 @@ function App() {
               {console.log('token', token)}
               <PageTitle title="Update CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <UpdateCareHomeForm/>
+            </>
+          ) : (
+            <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
+          )
+        }
+      />
+
+      <Route
+        path="/users/update/:userId" // Adjust the parameter name here to :userId
+        element={
+          token ? ( // Only render UpdateUserProfileForm if signed in
+            <>
+              <PageTitle title="Update user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <UpdateUserProfileForm />
             </>
           ) : (
             <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
@@ -133,6 +165,7 @@ function App() {
         <Route path="/ui/alerts" element={<Alerts />} />
       <Route path="/ui/buttons" element={<Buttons />} /> */}
         {handleProtectedRoutes()} {/* Add protected routes check here */}
+      <Route path="/users" element={<Users />} />
 
       </Routes>
     </>

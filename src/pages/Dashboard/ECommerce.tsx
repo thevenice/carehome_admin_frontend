@@ -9,6 +9,7 @@ import TableOne from '../../components/Tables/TableOne'
 import DefaultLayout from '../../layout/DefaultLayout'
 import PlanForm from '../../components/Forms/PlanForm'
 import CareHomeForm from '../../components/Forms/CareHomeForm'
+import CreateUserForm from '../../components/Forms/CreateUserForm'
 
 const ECommerce: React.FC = () => {
   return (
@@ -105,7 +106,7 @@ const ECommerce: React.FC = () => {
           <PlanForm />
         </div>
         <div className="w-full">
-          <CareHomeForm />
+          <CreateUserForm />
         </div>
       </div>
 

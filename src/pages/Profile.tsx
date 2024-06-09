@@ -106,8 +106,8 @@ const Profile: React.FC = () => {
               <FontAwesomeIcon icon={faGoogle} className="text-2xl text-red-600 hover:text-red-800" />
             </a>
           )}
-          {userData.x_com && (
-            <a href={userData.x_com} target="_blank" rel="noopener noreferrer">
+          {userData.xCom && (
+            <a href={userData.xCom} target="_blank" rel="noopener noreferrer">
               <FontAwesomeIcon icon={faXing} className="text-2xl text-gray-600 hover:text-gray-800" />
             </a>
           )}

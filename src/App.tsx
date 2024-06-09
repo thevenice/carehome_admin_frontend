@@ -24,6 +24,7 @@ import Users from './pages/Users'
 import UserProfile from './pages/UserProfile'
 import UpdateUserProfileForm from './pages/UpdateUserProfile'
 import CreateUserProfile from './pages/CreateUserProfile'
+import UpdateCompanyInfo from './pages/UpdateCompanyInfo'
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true)
@@ -179,7 +180,8 @@ function App() {
         <Route path="/ui/alerts" element={<Alerts />} />
       <Route path="/ui/buttons" element={<Buttons />} /> */}
         {handleProtectedRoutes()} {/* Add protected routes check here */}
-      <Route path="/settings" element={<Settings />} />
+      <Route path="/settings" element={<UpdateCompanyInfo />} />
+      {/* <Route path="/settings" element={<Settings />} /> */}
       <Route path="/users" element={<Users />} />
 
       </Routes>

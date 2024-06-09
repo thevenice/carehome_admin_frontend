@@ -50,7 +50,7 @@ function App() {
     <Loader />
   ) : (
     <>
-      <Routes>
+      <Routes>        
         <Route
           index
           element={
@@ -175,11 +175,11 @@ function App() {
         <Route path="/forms/form-layout" element={<FormLayout />} />
         <Route path="/carehomes" element={<CareHomes />} />
         <Route path="/plans" element={<Plans />} />
-        <Route path="/settings" element={<Settings />} />
         <Route path="/chart" element={<Chart />} />
         <Route path="/ui/alerts" element={<Alerts />} />
       <Route path="/ui/buttons" element={<Buttons />} /> */}
         {handleProtectedRoutes()} {/* Add protected routes check here */}
+      <Route path="/settings" element={<Settings />} />
       <Route path="/users" element={<Users />} />
 
       </Routes>

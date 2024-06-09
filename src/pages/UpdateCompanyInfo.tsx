@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone, faEnvelope, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../utils/axios';
+import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
+import DefaultLayout from '../layout/DefaultLayout';
 
 interface CompanyInfo {
   name: string;
@@ -160,7 +162,22 @@ const UpdateCompanyInfo: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <>
+{    formData ?
+(    
+<DefaultLayout>
+    <Breadcrumb pageName="Update Company Info" />
+    <div className="grid">
+      <div className="flex flex-col gap-9">
+        {/* <!-- Create Plan --> */}
+        <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+          <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
+            <h3 className="font-medium text-black dark:text-white">
+              Create Care Home
+            </h3>
+          </div>
+          <div className="flex flex-col gap-5.5 p-6.5">
+<form onSubmit={handleSubmit} className="space-y-6">
       {/* Logo Upload */}
       <div className="mb-4">
         <label htmlFor="logo" className="block text-sm font-medium text-gray-700">
@@ -172,7 +189,7 @@ const UpdateCompanyInfo: React.FC = () => {
             id="logo"
             name="logo"
             accept="image/*"
-            className="sr-only"
+            className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             onChange={handleLogoChange}
           />
           <label
@@ -193,7 +210,7 @@ const UpdateCompanyInfo: React.FC = () => {
           Name
         </label>
         <div className="mt-1 flex rounded-md shadow-sm">
-          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+          <span className="inline-flex items-center px-3 rounded-l-lg border-r-0 border-[1.5px] border-stroke bg-transparent text-gray-500 text-sm" >
             <FontAwesomeIcon icon={faUser} className="h-5 w-5" />
           </span>
           <input
@@ -202,7 +219,7 @@ const UpdateCompanyInfo: React.FC = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="flex-1 block w-full min-w-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="w-full rounded-lg border-[1.5px] border-stroke rounded-l-none border-l-0 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
           />
         </div>
       </div>
@@ -213,7 +230,7 @@ const UpdateCompanyInfo: React.FC = () => {
           Phone Number
         </label>
         <div className="mt-1 flex rounded-md shadow-sm">
-          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+          <span className="inline-flex items-center px-3 rounded-l-lg border-r-0 border-[1.5px] border-stroke bg-transparent text-gray-500 text-sm">
             <FontAwesomeIcon icon={faPhone} className="h-5 w-5" />
           </span>
           <input
@@ -222,7 +239,7 @@ const UpdateCompanyInfo: React.FC = () => {
             name="contactInfo.phoneNumber"
             value={formData.contactInfo.phoneNumber}
             onChange={handleChange}
-            className="flex-1 block w-full min-w-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="w-full rounded-lg border-[1.5px] border-stroke rounded-l-none border-l-0 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
           />
         </div>
       </div>
@@ -232,7 +249,7 @@ const UpdateCompanyInfo: React.FC = () => {
           Email Address
         </label>
         <div className="mt-1 flex rounded-md shadow-sm">
-          <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">
+          <span className="inline-flex items-center px-3 rounded-l-lg border-r-0 border-[1.5px] border-stroke bg-transparent text-gray-500 text-sm">
             <FontAwesomeIcon icon={faEnvelope} className="h-5 w-5" />
           </span>
           <input
@@ -241,7 +258,7 @@ const UpdateCompanyInfo: React.FC = () => {
             name="contactInfo.emailAddress"
             value={formData.contactInfo.emailAddress}
             onChange={handleChange}
-            className="flex-1 block w-full min-w-0 border-gray-300 rounded-none rounded-r-md focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="w-full rounded-lg border-[1.5px] border-stroke rounded-l-none border-l-0 bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
           />
         </div>
       </div>
@@ -257,7 +274,7 @@ const UpdateCompanyInfo: React.FC = () => {
           name="linkedin"
           value={formData.linkedin}
           onChange={handleChange}
-          className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+          className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
         />
       </div>
 
@@ -272,7 +289,7 @@ const UpdateCompanyInfo: React.FC = () => {
         name="googleMap"
         value={formData.googleMap}
         onChange={handleChange}
-        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
       />
     </div>
 
@@ -286,7 +303,7 @@ const UpdateCompanyInfo: React.FC = () => {
         name="facebook"
         value={formData.facebook}
         onChange={handleChange}
-        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
       />
     </div>
 
@@ -300,7 +317,7 @@ const UpdateCompanyInfo: React.FC = () => {
         name="instagram"
         value={formData.instagram}
         onChange={handleChange}
-        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
       />
     </div>
 
@@ -314,7 +331,7 @@ const UpdateCompanyInfo: React.FC = () => {
         name="whatsapp"
         value={formData.whatsapp}
         onChange={handleChange}
-        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
       />
     </div>
 
@@ -328,7 +345,7 @@ const UpdateCompanyInfo: React.FC = () => {
         name="telegram"
         value={formData.telegram}
         onChange={handleChange}
-        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
       />
     </div>
 
@@ -343,7 +360,7 @@ const UpdateCompanyInfo: React.FC = () => {
         value={formData.aboutUs}
         onChange={handleChange}
         rows={3}
-        className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
       />
     </div>
 
@@ -357,7 +374,7 @@ const UpdateCompanyInfo: React.FC = () => {
             placeholder={`Service #${index + 1}`}
             value={service}
             onChange={(e) => handleServiceChange(e, index)}
-            className="flex-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
           />
           <button
             type="button"
@@ -387,7 +404,7 @@ const UpdateCompanyInfo: React.FC = () => {
             placeholder={`Facility #${index + 1}`}
             value={facility}
             onChange={(e) => handleFacilityChange(e, index)}
-            className="flex-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+            className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
           />
           <button
             type="button"
@@ -408,15 +425,27 @@ const UpdateCompanyInfo: React.FC = () => {
     </div>
 
     {/* Submit Button */}
-    <div>
-      <button
-        type="submit"
-        className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >
+    <div className="px-4 py-3 text-right sm:px-6">
+              <button
+                  type="submit"
+                  className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                >
         Update Company Info
       </button>
     </div>
-  </form>
+    </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    </DefaultLayout>
+  
+  )
+  : 
+  (
+    <div>Loading...</div>
+  )}
+  </>
 );
 };
 

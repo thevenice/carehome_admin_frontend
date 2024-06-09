@@ -4,7 +4,9 @@ import CoverOne from '../images/cover/cover-01.png'
 import userSix from '../images/user/user-06.png'
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPhone, faEnvelope, faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPhone, faEnvelope, faMapMarkerAlt} from '@fortawesome/free-solid-svg-icons';
+import { faGoogle, faXing, faFacebook, faInstagram, faLinkedin, faTelegram, faWhatsapp  } from '@fortawesome/free-brands-svg-icons';
+
 
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 import DefaultLayout from '../layout/DefaultLayout'
@@ -52,7 +54,7 @@ const Profile: React.FC = () => {
             <div className="container mx-auto p-6">
       {/* Profile Header */}
       <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-md">
-        <img src={userData.images[0]} alt={`${userData.name} main`} className="w-32 h-32 rounded-full object-cover mb-4" />
+        <img src={userData.logo} alt={`${userData.name} main`} className="w-32 h-32 rounded-full object-cover mb-4" />
         <h1 className="text-3xl font-bold mb-2">{userData.name}</h1>
         <p className="text-center text-gray-600">{userData.aboutUs}</p>
 
@@ -66,18 +68,50 @@ const Profile: React.FC = () => {
             <FontAwesomeIcon icon={faEnvelope} className="text-gray-500 mr-2" />
             <span>{userData.contactInfo.emailAddress}</span>
           </div>
-          <div className="flex items-center">
+          <div className="flex items-center mb-2">
             <FontAwesomeIcon icon={faMapMarkerAlt} className="text-gray-500 mr-2" />
             <span>{userData.location.address}</span>
           </div>
         </div>
-      </div>
 
-      {/* Images */}
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {userData.images.map((image:any, index:any) => (
-          <img key={index} src={image} alt={`${name} ${index + 1}`} className="w-full h-64 object-cover rounded-lg" />
-        ))}
+        {/* Social Media Links */}
+        <div className="flex mt-4 space-x-4">
+          {userData.facebook && (
+            <a href={userData.facebook} target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faFacebook} className="text-2xl text-blue-600 hover:text-blue-800" />
+            </a>
+          )}
+          {userData.instagram && (
+            <a href={userData.instagram} target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faInstagram} className="text-2xl text-purple-600 hover:text-purple-800" />
+            </a>
+          )}
+          {userData.linkedin && (
+            <a href={userData.linkedin} target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faLinkedin} className="text-2xl text-blue-500 hover:text-blue-700" />
+            </a>
+          )}
+          {userData.telegram && (
+            <a href={userData.telegram} target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faTelegram} className="text-2xl text-blue-400 hover:text-blue-600" />
+            </a>
+          )}
+          {userData.whatsapp && (
+            <a href={`https://wa.me/${userData.whatsapp.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faWhatsapp} className="text-2xl text-green-400 hover:text-green-600" />
+            </a>
+          )}
+          {userData.google_map && (
+            <a href={userData.google_map} target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faGoogle} className="text-2xl text-red-600 hover:text-red-800" />
+            </a>
+          )}
+          {userData.x_com && (
+            <a href={userData.x_com} target="_blank" rel="noopener noreferrer">
+              <FontAwesomeIcon icon={faXing} className="text-2xl text-gray-600 hover:text-gray-800" />
+            </a>
+          )}
+        </div>
       </div>
 
       {/* Services */}
@@ -93,7 +127,11 @@ const Profile: React.FC = () => {
       {/* Facilities */}
       <div className="mt-6 bg-gray-100 p-6 rounded-lg shadow-md">
         <h2 className="text-2xl font-bold mb-4">Facilities & Amenities</h2>
-        <p>{userData.facilitiesAmenities}</p>
+        <ul className="list-disc list-inside">
+          {userData.facilitiesAmenities.map((facilitieAmenitie:any, index:any) => (
+            <li key={index} className="mb-2">{facilitieAmenitie}</li>
+          ))}
+        </ul>
       </div>
     </div>
 

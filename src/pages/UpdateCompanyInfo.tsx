@@ -169,7 +169,7 @@ const UpdateCompanyInfo: React.FC = () => {
     <Breadcrumb pageName="Update Company Info" />
     <div className="grid">
       <div className="flex flex-col gap-9">
-        {/* <!-- Create Plan --> */}
+        {/* <!-- Update Company Info --> */}
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
             <h3 className="font-medium text-black dark:text-white">
@@ -192,13 +192,13 @@ const UpdateCompanyInfo: React.FC = () => {
             className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             onChange={handleLogoChange}
           />
-          <label
+          {/* <label
             htmlFor="logo"
             className="cursor-pointer border border-gray-300 rounded-md py-1 px-3 flex items-center space-x-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
           >
             <span>Choose a file</span>
             <span className="text-gray-500">(PNG, JPG, GIF)</span>
-          </label>
+          </label> */}
         </div>
         {previewLogo && (
           <img src={previewLogo} alt="Logo Preview" className="mt-2 rounded-md shadow-sm max-w-xs" />
@@ -210,7 +210,7 @@ const UpdateCompanyInfo: React.FC = () => {
           Name
         </label>
         <div className="mt-1 flex rounded-md shadow-sm">
-          <span className="inline-flex items-center px-3 rounded-l-lg border-r-0 border-[1.5px] border-stroke bg-transparent text-gray-500 text-sm" >
+          <span className="inline-flex items-center px-3 rounded-l-lg border-r-0 border-[1.5px] border-stroke dark:border-form-strokedark bg-transparent text-black text-sm dark:bg-form-input dark:text-white dark:focus:border-primary" >
             <FontAwesomeIcon icon={faUser} className="h-5 w-5" />
           </span>
           <input
@@ -230,7 +230,7 @@ const UpdateCompanyInfo: React.FC = () => {
           Phone Number
         </label>
         <div className="mt-1 flex rounded-md shadow-sm">
-          <span className="inline-flex items-center px-3 rounded-l-lg border-r-0 border-[1.5px] border-stroke bg-transparent text-gray-500 text-sm">
+          <span className="inline-flex items-center px-3 rounded-l-lg border-r-0 border-[1.5px] border-stroke dark:border-form-strokedark bg-transparent text-black text-sm dark:bg-form-input dark:text-white dark:focus:border-primary">
             <FontAwesomeIcon icon={faPhone} className="h-5 w-5" />
           </span>
           <input
@@ -249,7 +249,7 @@ const UpdateCompanyInfo: React.FC = () => {
           Email Address
         </label>
         <div className="mt-1 flex rounded-md shadow-sm">
-          <span className="inline-flex items-center px-3 rounded-l-lg border-r-0 border-[1.5px] border-stroke bg-transparent text-gray-500 text-sm">
+          <span className="inline-flex items-center px-3 rounded-l-lg border-r-0 border-[1.5px] border-stroke dark:border-form-strokedark bg-transparent text-black text-sm dark:bg-form-input dark:text-white dark:focus:border-primary">
             <FontAwesomeIcon icon={faEnvelope} className="h-5 w-5" />
           </span>
           <input
@@ -425,13 +425,14 @@ const UpdateCompanyInfo: React.FC = () => {
     </div>
 
     {/* Submit Button */}
-    <div className="px-4 py-3 text-right sm:px-6">
-              <button
+              {/* Submit Button */}
+              <div>
+                <button
                   type="submit"
                   className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
-        Update Company Info
-      </button>
+                  Update Company Info
+                </button>
     </div>
     </form>
           </div>

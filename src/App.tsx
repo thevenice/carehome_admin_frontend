@@ -13,6 +13,7 @@ import UpdateUserProfileForm from './pages/UpdateUserProfile'
 import CreateUserProfile from './pages/CreateUserProfile'
 import UpdateCompanyInfo from './pages/UpdateCompanyInfo'
 import useStore from './store/store'
+import ECommerce from './pages/Dashboard/ECommerce'
 
 //
 // import PlanDetails from './pages/PlanDetails'
@@ -42,13 +43,7 @@ function App() {
     setTimeout(() => setLoading(false), 1000)
   }, [])
 
-  // Redirect to signin if not signed in and trying to access protected routes
-  const handleProtectedRoutes = () => {
-    if (!token && pathname !== '/auth/signin' && pathname !== '/auth/signup') {
-      return <Route path="*" element={<SignIn />} />
-    }
-    return null
-  }
+
 
   const protectedRoute = (element: JSX.Element) => {
     console.log("role", role)
@@ -75,6 +70,15 @@ function App() {
               </>
             )
           }
+        />
+        <Route
+          path="/dashboard"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <ECommerce />
+            </>
+          )}
         />
         <Route
           path="/profile"

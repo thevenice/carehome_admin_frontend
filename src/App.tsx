@@ -4,32 +4,35 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Loader from './common/Loader'
 import PageTitle from './components/PageTitle'
 import SignIn from './pages/Authentication/SignIn'
-import SignUp from './pages/Authentication/SignUp'
-import Calendar from './pages/Calendar'
-import Chart from './pages/Chart'
-import ECommerce from './pages/Dashboard/ECommerce'
-import FormElements from './pages/Form/FormElements'
-import FormLayout from './pages/Form/FormLayout'
 import Profile from './pages/Profile'
 import CareHomeProfile from './pages/CareHomeProfile'
-import PlanDetails from './pages/PlanDetails'
-import Settings from './pages/Settings'
-import CareHomes from './pages/CareHomes'
-import Plans from './pages/Plans'
-import Alerts from './pages/UiElements/Alerts'
-import Buttons from './pages/UiElements/Buttons'
-import useStore from './store/store'
 import UpdateCareHomeForm from './pages/UpdateCareHomeForm'
 import Users from './pages/Users'
 import UserProfile from './pages/UserProfile'
 import UpdateUserProfileForm from './pages/UpdateUserProfile'
 import CreateUserProfile from './pages/CreateUserProfile'
 import UpdateCompanyInfo from './pages/UpdateCompanyInfo'
+import useStore from './store/store'
+
+//
+// import PlanDetails from './pages/PlanDetails'
+// import Settings from './pages/Settings'
+// import CareHomes from './pages/CareHomes'
+// import Plans from './pages/Plans'
+// import Alerts from './pages/UiElements/Alerts'
+// import Buttons from './pages/UiElements/Buttons'
+// import SignUp from './pages/Authentication/SignUp'
+// import Calendar from './pages/Calendar'
+// import Chart from './pages/Chart'
+// import ECommerce from './pages/Dashboard/ECommerce'
+// import FormElements from './pages/Form/FormElements'
+// import FormLayout from './pages/Form/FormLayout'
+// 
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true)
   const { pathname } = useLocation()
-  const { token, userId } = useStore() // Access user data and isSignIn function from the store
+  const { token, role } = useStore() // Access user data and role from the store
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -47,6 +50,11 @@ function App() {
     return null
   }
 
+  const protectedRoute = (element: JSX.Element) => {
+    console.log("role", role)
+    return token && role === 'ADMINISTRATOR' ? element : <Navigate to="/" replace={true} />
+  }
+
   return loading ? (
     <Loader />
   ) : (
@@ -58,7 +66,7 @@ function App() {
             token ? ( // Conditionally render ECommerce based on user login
               <>
                 <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <ECommerce />
+                <Profile />
               </>
             ) : (
               <>
@@ -70,113 +78,77 @@ function App() {
         />
         <Route
           path="/profile"
-          element={
-            token ? ( // Only render Profile if signed in
-              <>
-                {console.log('token', token)}
-                <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <Profile />
-              </>
-            ) : (
-              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-            )
-          }
+          element={protectedRoute(
+            <>
+              <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <Profile />
+            </>
+          )}
         />
         <Route
           path="/carehome-profile/:care_home_id"
-          element={
-            token ? ( // Only render CareHomeProfile if signed in
-              <>
-                {console.log('token', token)}
-                <PageTitle title="CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <CareHomeProfile />
-              </>
-            ) : (
-              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-            )
-          }
+          element={protectedRoute(
+            <>
+              <PageTitle title="CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <CareHomeProfile />
+            </>
+          )}
         />
         <Route
           path="/users/:user_id"
-          element={
-            token ? ( // Only render User data if signed in
-              <>
-                {console.log('token', token)}
-                <PageTitle title="Users Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <UserProfile />
-              </>
-            ) : (
-              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-            )
-          }
+          element={protectedRoute(
+            <>
+              <PageTitle title="Users Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <UserProfile />
+            </>
+          )}
         />
         <Route
           path="/carehome-profile/update/:care_home_id"
-          element={
-            token ? ( // Only render CareHomeProfile if signed in
-              <>
-                {console.log('token', token)}
-                <PageTitle title="Update CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <UpdateCareHomeForm />
-              </>
-            ) : (
-              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-            )
-          }
+          element={protectedRoute(
+            <>
+              <PageTitle title="Update CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <UpdateCareHomeForm />
+            </>
+          )}
         />
         <Route
-          path="/users/update/:userId" // Adjust the parameter name here to :userId
-          element={
-            token ? ( // Only render UpdateUserProfileForm if signed in
-              <>
-                <PageTitle title="Update user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <UpdateUserProfileForm />
-              </>
-            ) : (
-              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-            )
-          }
+          path="/users/update/:userId"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Update user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <UpdateUserProfileForm />
+            </>
+          )}
         />
         <Route
-          path="/users/create" // Adjust the parameter name here to :userId
-          element={
-            token ? ( // Only render UpdateUserProfileForm if signed in
-              <>
-                <PageTitle title="Create user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <CreateUserProfile />
-              </>
-            ) : (
-              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-            )
-          }
+          path="/users/create"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Create user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <CreateUserProfile />
+            </>
+          )}
         />
         <Route
-          path="/users" // Adjust the parameter name here to :userId
-          element={
-            token ? ( // Only render UpdateUserProfileForm if signed in
-              <>
-                <PageTitle title="Users | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <Users />
-              </>
-            ) : (
-              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-            )
-          }
+          path="/users"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Users | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <Users />
+            </>
+          )}
         />
         <Route
-          path="/profile/update-company-info" // Adjust the parameter name here to :userId
-          element={
-            token ? ( // Only render UpdateUserProfileForm if signed in
-              <>
-                <PageTitle title="Update Company Info | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <UpdateCompanyInfo />
-              </>
-            ) : (
-              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-            )
-          }
+          path="/profile/update-company-info"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Update Company Info | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <UpdateCompanyInfo />
+            </>
+          )}
         />
-        {/* Plans Routes start */}
+                {/* Plans Routes start */}
         {/* <Route
         path="/plans/:plan_id"
         element={
@@ -200,7 +172,6 @@ function App() {
         <Route path="/chart" element={<Chart />} />
         <Route path="/ui/alerts" element={<Alerts />} />
       <Route path="/ui/buttons" element={<Buttons />} /> */}
-        {handleProtectedRoutes()} {/* Add protected routes check here */}
         {/* <Route path="/settings" element={<Settings />} /> */}
       </Routes>
     </>

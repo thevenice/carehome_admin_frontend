@@ -25,7 +25,7 @@ import axiosInstance from '../utils/axios'
 
 const Profile: React.FC = () => {
   const { token, userId } = useStore()
-  const [userData, setUserData] = useState<any>(null)
+  const [companyData, setCompanyData] = useState<any>(null)
 
   const navigate = useNavigate()
   const handleEdit = () => {
@@ -36,8 +36,8 @@ const Profile: React.FC = () => {
       try {
         const response = await axiosInstance.get(`/admin/company-info`)
         if (response.data.success) {
-          setUserData(response.data.data)
-          console.log(userData)
+          setCompanyData(response.data.data)
+          console.log(companyData)
         } else {
           console.error('Failed to fetch company info')
         }
@@ -53,7 +53,7 @@ const Profile: React.FC = () => {
 
   return (
     <>
-      {userData ? (
+      {companyData ? (
         <DefaultLayout>
           <Breadcrumb pageName="Profile" />
 
@@ -70,12 +70,12 @@ const Profile: React.FC = () => {
               {/* Profile Header */}
               <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-md">
                 <img
-                  src={userData.logo}
-                  alt={`${userData.name} main`}
+                  src={companyData.logo}
+                  alt={`${companyData.name} main`}
                   className="w-32 h-32 rounded-full object-cover mb-4"
                 />
-                <h1 className="text-3xl font-bold mb-2">{userData.name}</h1>
-                <p className="text-center text-gray-600">{userData.aboutUs}</p>
+                <h1 className="text-3xl font-bold mb-2">{companyData.name}</h1>
+                <p className="text-center text-gray-600">{companyData.aboutUs}</p>
 
                 {/* Contact Info */}
                 <div className="mt-4 flex flex-col items-center">
@@ -84,29 +84,29 @@ const Profile: React.FC = () => {
                       icon={faPhone}
                       className="text-gray-500 mr-2"
                     />
-                    <span>{userData.contactInfo.phoneNumber}</span>
+                    <span>{companyData.contactInfo.phoneNumber}</span>
                   </div>
                   <div className="flex items-center mb-2">
                     <FontAwesomeIcon
                       icon={faEnvelope}
                       className="text-gray-500 mr-2"
                     />
-                    <span>{userData.contactInfo.emailAddress}</span>
+                    <span>{companyData.contactInfo.emailAddress}</span>
                   </div>
                   <div className="flex items-center mb-2">
                     <FontAwesomeIcon
                       icon={faMapMarkerAlt}
                       className="text-gray-500 mr-2"
                     />
-                    <span>{userData.location.address}</span>
+                    <span>{companyData.location.address}</span>
                   </div>
                 </div>
 
                 {/* Social Media Links */}
                 <div className="flex mt-4 space-x-4">
-                  {userData.facebook && (
+                  {companyData.facebook && (
                     <a
-                      href={userData.facebook}
+                      href={companyData.facebook}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -116,9 +116,9 @@ const Profile: React.FC = () => {
                       />
                     </a>
                   )}
-                  {userData.instagram && (
+                  {companyData.instagram && (
                     <a
-                      href={userData.instagram}
+                      href={companyData.instagram}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -128,9 +128,9 @@ const Profile: React.FC = () => {
                       />
                     </a>
                   )}
-                  {userData.linkedin && (
+                  {companyData.linkedin && (
                     <a
-                      href={userData.linkedin}
+                      href={companyData.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -140,9 +140,9 @@ const Profile: React.FC = () => {
                       />
                     </a>
                   )}
-                  {userData.telegram && (
+                  {companyData.telegram && (
                     <a
-                      href={userData.telegram}
+                      href={companyData.telegram}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -152,9 +152,9 @@ const Profile: React.FC = () => {
                       />
                     </a>
                   )}
-                  {userData.whatsapp && (
+                  {companyData.whatsapp && (
                     <a
-                      href={`https://wa.me/${userData.whatsapp.replace(/\D/g, '')}`}
+                      href={`https://wa.me/${companyData.whatsapp.replace(/\D/g, '')}`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -164,9 +164,9 @@ const Profile: React.FC = () => {
                       />
                     </a>
                   )}
-                  {userData.google_map && (
+                  {companyData.google_map && (
                     <a
-                      href={userData.google_map}
+                      href={companyData.google_map}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -176,9 +176,9 @@ const Profile: React.FC = () => {
                       />
                     </a>
                   )}
-                  {userData.xCom && (
+                  {companyData.xCom && (
                     <a
-                      href={userData.xCom}
+                      href={companyData.xCom}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -195,7 +195,7 @@ const Profile: React.FC = () => {
               <div className="mt-6 bg-gray-100 p-6 rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-4">Services Offered</h2>
                 <ul className="list-disc list-inside">
-                  {userData.servicesOffered.map((service: any, index: any) => (
+                  {companyData.servicesOffered.map((service: any, index: any) => (
                     <li key={index} className="mb-2">
                       {service}
                     </li>
@@ -209,7 +209,7 @@ const Profile: React.FC = () => {
                   Facilities & Amenities
                 </h2>
                 <ul className="list-disc list-inside">
-                  {userData.facilitiesAmenities.map(
+                  {companyData.facilitiesAmenities.map(
                     (facilitieAmenitie: any, index: any) => (
                       <li key={index} className="mb-2">
                         {facilitieAmenitie}

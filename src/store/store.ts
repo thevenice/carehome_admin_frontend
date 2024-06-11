@@ -1,13 +1,6 @@
-import { create, StateCreator } from 'zustand'
-import { persist } from 'zustand/middleware'
-import axios from 'axios'
+import { create } from 'zustand'
+import { persist, PersistOptions } from 'zustand/middleware'
 import axiosInstance from '../utils/axios'
-
-type AuthData = {
-  token: string
-  refreshToken: string
-  userId: string
-}
 
 type CompanyData = {
   name: string
@@ -34,41 +27,30 @@ type CompanyData = {
   logo: string
 }
 
-type AuthActions = {
+type AuthData = {
+  token: string
+  refreshToken: string
+  userId: string
+  role: string
+}
+
+type StoreState = AuthData & { companyData?: CompanyData } & {
   setAuthData: (data: AuthData) => void
-  fetchAuthData: () => Promise<void>
-  updateAuthData: (data: Partial<AuthData>) => Promise<void>
   fetchCompanyData: () => Promise<void>
 }
 
-type StoreState = AuthData & { companyData?: CompanyData } & AuthActions
-
-type CustomStateCreator = StateCreator<StoreState, [], []>
-
 const useStore = create<StoreState>(
-  persist<StoreState, [], []>(
+  (persist as (
+    config: (set: any, get: any, api: any) => StoreState,
+    options: PersistOptions<StoreState>
+  ) => StateCreator<StoreState, [], []>)(
     (set, get) => ({
       token: '',
       refreshToken: '',
       userId: '',
+      role: '',
       companyData: undefined,
       setAuthData: (data: AuthData) => set(data),
-      fetchAuthData: async () => {
-        try {
-          const response = await axios.get('/api/auth')
-          set(response.data)
-        } catch (error) {
-          console.error('Failed to fetch auth data:', error)
-        }
-      },
-      updateAuthData: async (data: Partial<AuthData>) => {
-        try {
-          const response = await axios.put('/api/auth', data)
-          set(response.data)
-        } catch (error) {
-          console.error('Failed to update auth data:', error)
-        }
-      },
       fetchCompanyData: async () => {
         const { token, userId } = get()
         if (!token || !userId) return
@@ -93,7 +75,7 @@ const useStore = create<StoreState>(
       name: 'auth-storage',
       getStorage: () => localStorage,
     }
-  ) as CustomStateCreator,
+  )
 )
 
 export default useStore

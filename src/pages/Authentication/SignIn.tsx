@@ -5,15 +5,16 @@ import Logo from '../../images/logo/logo.svg'
 import useStore from '../../store/store'
 
 const SignIn: React.FC = () => {
-  const { setAuthData } = useStore() // Access user data and isSignIn function from the store
+  const { setAuthData } = useStore() // Access setAuthData from the store
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate() // Use useNavigate hook for redirection
 
-  const handleSubmit = async (event: { preventDefault: () => void }) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
+    setIsLoading(true)
 
     try {
       const response = await fetch('http://localhost:9091/api/auth/login', {
@@ -23,7 +24,8 @@ const SignIn: React.FC = () => {
       })
 
       if (!response.ok) {
-        // Handle login error
+        const errorData = await response.json()
+        setErrorMessage(errorData.message || 'Login failed')
       } else {
         const data: any = await response.json()
 
@@ -32,6 +34,7 @@ const SignIn: React.FC = () => {
           token: data.token,
           refreshToken: data.refresh_token,
           userId: data.user_id,
+          role: data.role // Assuming role is also returned by the API
         })
 
         // Redirect to profile path after successful login
@@ -39,9 +42,11 @@ const SignIn: React.FC = () => {
       }
     } catch (error) {
       console.error('Login error:', error)
+      setErrorMessage('An error occurred. Please try again later.')
+    } finally {
+      setIsLoading(false)
     }
   }
-
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">

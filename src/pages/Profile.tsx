@@ -17,7 +17,7 @@ const Profile: React.FC = () => {
   const [userData, setUserData] = useState<any>(null)
 
   useEffect(() => {
-    const fetchUserData = async () => {
+    const fetchCompanyData = async () => {
       try {
         const response = await axiosInstance.get(`/admin/company-info`);
         if (response.data.success) {
@@ -32,7 +32,7 @@ const Profile: React.FC = () => {
     }
 
     if (token && userId) {
-      fetchUserData()
+      fetchCompanyData()
     }
   }, [token, userId])
 

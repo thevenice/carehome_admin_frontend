@@ -3,12 +3,23 @@ import { NavLink, useLocation } from 'react-router-dom'
 import SidebarLinkGroup from './SidebarLinkGroup'
 import Logo from '../../images/logo/logo.svg'
 import Signout from '../Auth/Signout'
+import { useStoreContext } from '../../store/storeContext'
+
 interface SidebarProps {
   sidebarOpen: boolean
   setSidebarOpen: (arg: boolean) => void
 }
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
+  //@ts-ignore
+  const { companyData, fetchCompanyData, token, userId } = useStoreContext()
+
+  useEffect(() => {
+    if (token && userId) {
+      fetchCompanyData()
+    }
+  }, [token, userId, fetchCompanyData])
+
   const location = useLocation()
   const { pathname } = location
 
@@ -65,7 +76,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <NavLink to="/">
-          <img src={Logo} alt="Logo" />
+        <div className="flex items-center">
+      <img src={companyData.logo} alt="Logo" className="w-auto h-auto max-w-[50px] max-h-[50px] mr-4" />
+      <h1>{companyData.name}</h1>
+    </div>
         </NavLink>
 
         <button

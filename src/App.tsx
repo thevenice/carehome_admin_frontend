@@ -51,7 +51,7 @@ function App() {
     <Loader />
   ) : (
     <>
-      <Routes>        
+      <Routes>
         <Route
           index
           element={
@@ -82,79 +82,100 @@ function App() {
             )
           }
         />
-      <Route
-        path="/carehome-profile/:care_home_id"
-        element={
-          token ? ( // Only render CareHomeProfile if signed in
-            <>
-              {console.log('token', token)}
-              <PageTitle title="CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <CareHomeProfile />
-            </>
-          ) : (
-            <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-          )
-        }
-      />
-      <Route
-        path="/users/:user_id"
-        element={
-          token ? ( // Only render User data if signed in
-            <>
-              {console.log('token', token)}
-              <PageTitle title="Users Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <UserProfile />
-            </>
-          ) : (
-            <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-          )
-        }
-      />
-
-      <Route
-        path="/carehome-profile/update/:care_home_id"
-        element={
-          token ? ( // Only render CareHomeProfile if signed in
-            <>
-              {console.log('token', token)}
-              <PageTitle title="Update CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <UpdateCareHomeForm/>
-            </>
-          ) : (
-            <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-          )
-        }
-      />
-
-      <Route
-        path="/users/update/:userId" // Adjust the parameter name here to :userId
-        element={
-          token ? ( // Only render UpdateUserProfileForm if signed in
-            <>
-              <PageTitle title="Update user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <UpdateUserProfileForm />
-            </>
-          ) : (
-            <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-          )
-        }
-      />
-
-      <Route
-        path="/users/create" // Adjust the parameter name here to :userId
-        element={
-          token ? ( // Only render UpdateUserProfileForm if signed in
-            <>
-              <PageTitle title="Create user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <CreateUserProfile />
-            </>
-          ) : (
-            <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-          )
-        }
-      />
-
-
+        <Route
+          path="/carehome-profile/:care_home_id"
+          element={
+            token ? ( // Only render CareHomeProfile if signed in
+              <>
+                {console.log('token', token)}
+                <PageTitle title="CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <CareHomeProfile />
+              </>
+            ) : (
+              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
+            )
+          }
+        />
+        <Route
+          path="/users/:user_id"
+          element={
+            token ? ( // Only render User data if signed in
+              <>
+                {console.log('token', token)}
+                <PageTitle title="Users Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <UserProfile />
+              </>
+            ) : (
+              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
+            )
+          }
+        />
+        <Route
+          path="/carehome-profile/update/:care_home_id"
+          element={
+            token ? ( // Only render CareHomeProfile if signed in
+              <>
+                {console.log('token', token)}
+                <PageTitle title="Update CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <UpdateCareHomeForm />
+              </>
+            ) : (
+              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
+            )
+          }
+        />
+        <Route
+          path="/users/update/:userId" // Adjust the parameter name here to :userId
+          element={
+            token ? ( // Only render UpdateUserProfileForm if signed in
+              <>
+                <PageTitle title="Update user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <UpdateUserProfileForm />
+              </>
+            ) : (
+              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
+            )
+          }
+        />
+        <Route
+          path="/users/create" // Adjust the parameter name here to :userId
+          element={
+            token ? ( // Only render UpdateUserProfileForm if signed in
+              <>
+                <PageTitle title="Create user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <CreateUserProfile />
+              </>
+            ) : (
+              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
+            )
+          }
+        />
+        <Route
+          path="/users" // Adjust the parameter name here to :userId
+          element={
+            token ? ( // Only render UpdateUserProfileForm if signed in
+              <>
+                <PageTitle title="Users | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <Users />
+              </>
+            ) : (
+              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
+            )
+          }
+        />
+        <Route
+          path="/profile/update-company-info" // Adjust the parameter name here to :userId
+          element={
+            token ? ( // Only render UpdateUserProfileForm if signed in
+              <>
+                <PageTitle title="Update Company Info | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <UpdateCompanyInfo />
+              </>
+            ) : (
+              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
+            )
+          }
+        />
         {/* Plans Routes start */}
         {/* <Route
         path="/plans/:plan_id"
@@ -172,7 +193,7 @@ function App() {
       /> */}
         {/*  Plans Routes End*/}
         {/* Public routes (accessible without login) */}
- {/*       <Route path="/forms/form-elements" element={<FormElements />} />
+        {/*       <Route path="/forms/form-elements" element={<FormElements />} />
         <Route path="/forms/form-layout" element={<FormLayout />} />
         <Route path="/carehomes" element={<CareHomes />} />
         <Route path="/plans" element={<Plans />} />
@@ -180,10 +201,7 @@ function App() {
         <Route path="/ui/alerts" element={<Alerts />} />
       <Route path="/ui/buttons" element={<Buttons />} /> */}
         {handleProtectedRoutes()} {/* Add protected routes check here */}
-      <Route path="/settings" element={<UpdateCompanyInfo />} />
-      {/* <Route path="/settings" element={<Settings />} /> */}
-      <Route path="/users" element={<Users />} />
-
+        {/* <Route path="/settings" element={<Settings />} /> */}
       </Routes>
     </>
   )

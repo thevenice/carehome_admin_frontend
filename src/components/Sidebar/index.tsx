@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import SidebarLinkGroup from './SidebarLinkGroup'
-import Logo from '../../images/logo/logo.svg'
+import LogoIcon from '../../images/logo/logo-icon.svg'
 import Signout from '../Auth/Signout'
 import { useStoreContext } from '../../store/storeContext'
 
@@ -77,7 +77,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
         <NavLink to="/">
         <div className="flex items-center">
-      <img src={companyData.logo} alt="Logo" className="w-auto h-auto max-w-[50px] max-h-[50px] mr-4" />
+      <img src={companyData.logo ?? LogoIcon} alt="Logo" className="w-auto h-auto max-w-[50px] max-h-[50px] mr-4" />
       <h1>{companyData.name}</h1>
     </div>
         </NavLink>

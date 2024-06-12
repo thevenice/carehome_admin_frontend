@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import useStore from '../store/store'
 import CoverOne from '../images/cover/cover-01.png'
-import userSix from '../images/user/user-06.png'
+import LogoIcon from '../images/logo/logo.svg'
+// import userSix from '../../images/user/user-06.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {

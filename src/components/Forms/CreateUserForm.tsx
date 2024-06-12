@@ -4,6 +4,7 @@ import axiosInstance from '../../utils/axios'
 
 const CreateUserForm = () => {
   type FormData = {
+    profile_picture?: File | null;
     email: string
     password: string
     active: boolean
@@ -13,6 +14,7 @@ const CreateUserForm = () => {
   }
 
   type FormErrors = {
+    profile_picture?: File | null;
     email?: string
     password?: string
     fcm_token?: string
@@ -21,6 +23,7 @@ const CreateUserForm = () => {
   }
 
   const [formData, setFormData] = useState<FormData>({
+    profile_picture: null,
     email: '',
     password: '',
     active: true,
@@ -30,6 +33,7 @@ const CreateUserForm = () => {
   })
 
   const [errors, setErrors] = useState<FormErrors>({})
+  const [previewProfilePicture, setPreviewProfilePicture] = useState<any>()
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
@@ -47,7 +51,7 @@ const CreateUserForm = () => {
     }
   };
 
-  const { token } = useStore() // Get the token from Zustand state
+  // const { token } = useStore() // Get the token from Zustand state
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -69,27 +73,23 @@ const CreateUserForm = () => {
     }
 
     try {
-    //   const response = await fetch('http://localhost:9091/api/admin/user', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //     body: JSON.stringify(formData),
-    //   })
-    try{
-        const data_to_send = formData
-        const response = await axiosInstance.post(`/admin/user`, data_to_send);
-        alert('User created successfully');
-        console.log('User created:', response.data);
-    } catch (error) {
-        console.error('Error updating user:', error);
-        alert('Failed to create user');
-    }
-
+      const data_to_send = new FormData();
+      for (const key in formData) {
+        if (formData.hasOwnProperty(key)) {
+          data_to_send.append(key, formData[key as keyof FormData]);
+        }
+      }
+      const response = await axiosInstance.post(`/admin/user`, data_to_send, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      alert('User created successfully');
+      console.log('User created:', response.data);
 
       // Clear form data upon successful submission
       setFormData({
+        profile_picture: null,
         email: '',
         password: '',
         active: true,
@@ -100,8 +100,23 @@ const CreateUserForm = () => {
       setErrors({})
     } catch (error) {
       console.error('Error:', error)
+      alert('Failed to create user');
     }
   }
+
+  const handleProfilePictureChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFormData(prevState => ({
+        ...prevState,
+        profile_picture: file,
+      }));
+
+      // Create object URL for previewing the image
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewProfilePicture(objectUrl); // Save URL to state for preview
+    }
+  };
 
   return (
     <div className="grid">
@@ -113,6 +128,25 @@ const CreateUserForm = () => {
           </div>
           <div className="flex flex-col gap-5.5 p-6.5">
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Logo Upload */}
+              <div className="mb-4">
+                <label htmlFor="profile_picture" className="block text-sm font-medium text-gray-700">
+                  Upload Profile Picture
+                </label>
+                <div className="mt-2 flex items-center">
+                  <input
+                    type="file"
+                    id="profile_picture"
+                    name="profile_picture"
+                    accept="image/*"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                    onChange={handleProfilePictureChange}
+                  />
+                </div>
+                {previewProfilePicture && (
+                  <img src={previewProfilePicture} alt="Profile Picture Preview" className="mt-2 rounded-md shadow-sm max-w-xs" />
+                )}
+              </div>
               {/* Email */}
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">

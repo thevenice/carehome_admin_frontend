@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useParams } from 'react-router-dom';
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import DefaultLayout from '../layout/DefaultLayout';
@@ -10,7 +10,7 @@ const UpdateUserProfileForm = () => {
 
   const [formData, setFormData] = useState({
     email: '',
-    // password: '',
+    profile_picture: null as File | null,
     active: false,
     fcm_token: '',
     otp: 0,
@@ -20,6 +20,7 @@ const UpdateUserProfileForm = () => {
 
   const [loading, setLoading] = useState(true); // State to track loading state
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [previewProfilePicture, setPreviewProfilePicture] = useState<string | null>(null);
 
   useEffect(() => {
     // Fetch user details and set initial form data
@@ -34,7 +35,7 @@ const UpdateUserProfileForm = () => {
       });
   }, [userId]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -42,38 +43,52 @@ const UpdateUserProfileForm = () => {
     });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleProfilePictureChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFormData(prevState => ({
+        ...prevState,
+        profile_picture: file,
+      }));
+
+      // Create object URL for previewing the image
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewProfilePicture(objectUrl); // Save URL to state for preview
+    }
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-    console.log("formData: ",formData)
-    const data_to_send: any = {}; // Use a more specific type if possible
-
-    const properties = [
-      "email",
-      // "password",
-      "active",
-      "fcm_token",
-      "otp",
-      "role",
-      "email_verification",
-      // Add any other properties from formData here
-    ];
-    
-    for (const property of properties) {
-        //@ts-ignore
-        if (formData[property]) {
-          //@ts-ignore
-        data_to_send[property] = formData[property];
+      const data_to_send = new FormData();
+      for (const key in formData) {
+        if (formData.hasOwnProperty(key)) {
+          const value = formData[key as keyof typeof formData];
+          const allowed_keys = [
+            "email",
+            "password",
+            "active",
+            "fcm_token",
+            "otp",
+            "role",
+            "email_verification",
+            "profile_picture"
+          ]
+            if (key == "profile_picture" ) {
+              data_to_send.append(key, formData.profile_picture)
+            }
+          if (key !== "profile_picture" && value !== null && allowed_keys.includes(key)) {
+            data_to_send.append(key, value);
+          }
+        }
       }
-    }
-    
-    // Optional: Handle cases where no properties are set
-    if (Object.keys(data_to_send).length === 0) {
-      console.warn("No properties found in formData");
-    }
-
-      const response = await axiosInstance.put(`/admin/user/${userId}`, data_to_send);
+      
+      const response = await axiosInstance.put(`/admin/user/${userId}`, data_to_send, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       alert('User updated successfully');
       console.log('User updated:', response.data);
     } catch (error) {
@@ -85,7 +100,6 @@ const UpdateUserProfileForm = () => {
   if (loading) {
     return <div>Loading...</div>; // Display a loading indicator while data is being fetched
   }
-
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Update User Profile" />
@@ -105,13 +119,29 @@ const UpdateUserProfileForm = () => {
             </h3>
             <form onSubmit={handleSubmit} className="mt-6.5 space-y-6">
               <div className="space-y-2">
+                {/* Profile Picture Upload */}
+                <div className="mb-4">
+                  <label htmlFor="profile_picture" className="block text-sm font-medium text-gray-700">
+                    Upload Profile Picture
+                  </label>
+                  <div className="mt-2 flex items-center">
+                    <input
+                      type="file"
+                      id="profile_picture"
+                      name="profile_picture"
+                      accept="image/*"
+                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      onChange={handleProfilePictureChange}
+                    />
+                  </div>
+                  {previewProfilePicture && (
+                    <img src={previewProfilePicture} alt="Profile Picture Preview" className="mt-2 rounded-md shadow-sm max-w-xs" />
+                  )}
+                </div>
                 <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Email
-                </label>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                    Email
+                  </label>
                   <input
                     type="email"
                     name="email"
@@ -124,22 +154,6 @@ const UpdateUserProfileForm = () => {
                   />
                   {errors.email && <span className="text-red-500">{errors.email}</span>}
                 </div>
-                {/* <div>
-                  <label 
-                    htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Password:
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                  />
-                  {errors.password && <span className="text-red-500">{errors.password}</span>}
-                </div> */}
                 <div>
                   <label 
                     htmlFor="fcm_token"

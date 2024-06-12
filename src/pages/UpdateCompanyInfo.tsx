@@ -192,13 +192,7 @@ const UpdateCompanyInfo: React.FC = () => {
             className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
             onChange={handleLogoChange}
           />
-          {/* <label
-            htmlFor="logo"
-            className="cursor-pointer border border-gray-300 rounded-md py-1 px-3 flex items-center space-x-2 text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
-          >
-            <span>Choose a file</span>
-            <span className="text-gray-500">(PNG, JPG, GIF)</span>
-          </label> */}
+
         </div>
         {previewLogo && (
           <img src={previewLogo} alt="Logo Preview" className="mt-2 rounded-md shadow-sm max-w-xs" />

@@ -13,6 +13,7 @@ interface UserData {
   success: boolean;
   data: {
     _id: string;
+    profile_picture: string;
     email: string;
     active: boolean;
     role: string;
@@ -92,6 +93,11 @@ const UserProfile: React.FC = () => {
                 <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
                   {userData.data.email}
                 </h3>
+                <img
+                  src={userData.data.profile_picture}
+                  alt={`${userData.data.email} main`}
+                  className="w-32 h-32 rounded-full object-cover mb-4"
+                />
                 <p className="font-medium">Users Profile</p>
                 UserActions
                 {/* Display CareHomeActions component */}

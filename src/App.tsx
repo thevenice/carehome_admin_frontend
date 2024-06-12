@@ -13,7 +13,8 @@ import UpdateUserProfileForm from './pages/UpdateUserProfile'
 import CreateUserProfile from './pages/CreateUserProfile'
 import UpdateCompanyInfo from './pages/UpdateCompanyInfo'
 import useStore from './store/store'
-import ECommerce from './pages/Dashboard/ECommerce'
+import ECommerce from './pages/Dashboard'
+import Dashboard from './pages/Dashboard'
 
 //
 // import PlanDetails from './pages/PlanDetails'
@@ -76,12 +77,12 @@ function App() {
           element={protectedRoute(
             <>
               <PageTitle title="Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <ECommerce />
+              <Dashboard />
             </>
           )}
         />
         <Route
-          path="/profile"
+          path="/company-info"
           element={protectedRoute(
             <>
               <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
@@ -144,7 +145,7 @@ function App() {
           )}
         />
         <Route
-          path="/profile/update-company-info"
+          path="/update-company-info"
           element={protectedRoute(
             <>
               <PageTitle title="Update Company Info | TailAdmin - Tailwind CSS Admin Dashboard Template" />

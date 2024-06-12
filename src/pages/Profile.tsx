@@ -23,13 +23,13 @@ import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 import DefaultLayout from '../layout/DefaultLayout'
 import axiosInstance from '../utils/axios'
 
-const Profile: React.FC = () => {
+const CompanyInfo: React.FC = () => {
   const { token, userId } = useStore()
   const [companyData, setCompanyData] = useState<any>(null)
 
   const navigate = useNavigate()
   const handleEdit = () => {
-    navigate(`/profile/update-company-info`)
+    navigate(`/update-company-info`)
   }
   useEffect(() => {
     const fetchCompanyData = async () => {
@@ -55,7 +55,7 @@ const Profile: React.FC = () => {
     <>
       {companyData ? (
         <DefaultLayout>
-          <Breadcrumb pageName="Profile" />
+          <Breadcrumb pageName="CompanyInfo" />
 
           <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="relative z-20 h-35 md:h-65">
@@ -67,7 +67,7 @@ const Profile: React.FC = () => {
             </div>
             {/*  */}
             <div className="container mx-auto p-6">
-              {/* Profile Header */}
+              {/* CompanyInfo Header */}
               <div className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow-md">
                 <img
                   src={companyData.logo}
@@ -240,4 +240,4 @@ const Profile: React.FC = () => {
   )
 }
 
-export default Profile
+export default CompanyInfo

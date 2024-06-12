@@ -42,7 +42,7 @@ const SignIn: React.FC = () => {
           })
 
           // Redirect to profile path after successful login
-          navigate('/profile')
+          navigate('/dashboard')
         }
       }
     } catch (error) {

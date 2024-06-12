@@ -15,8 +15,8 @@ const CareHomeForm = () => {
     staff_size: string
     file: File | null // For storing the uploaded file
     contact_info: {
-      phone_number: [''],
-      email_address: [''],
+      phone_number: ['']
+      email_address: ['']
       physical_address: ['']
     }
   }
@@ -55,8 +55,8 @@ const CareHomeForm = () => {
     contact_info: {
       phone_number: [''],
       email_address: [''],
-      physical_address: ['']
-    }
+      physical_address: [''],
+    },
   })
 
   const [errors, setErrors] = useState<FormErrors>({
@@ -74,8 +74,8 @@ const CareHomeForm = () => {
     contact_info: {
       phone_number: [''],
       email_address: [''],
-      physical_address: ['']
-    }
+      physical_address: [''],
+    },
   })
 
   const handleChange = (
@@ -164,32 +164,36 @@ const CareHomeForm = () => {
   }
 
   const { token } = useStore() // Get the token from Zustand state
-  
-  const handleContactInfoChange = (e: { target: { value: any; }; }, type: string | number, index: string | number) => {
-    const { value } = e.target;
-    setFormData((prev:any) => {
-      const updatedContactInfo = [...prev.contact_info[type]];
-      updatedContactInfo[index] = value;
+
+  const handleContactInfoChange = (
+    e: { target: { value: any } },
+    type: string | number,
+    index: string | number,
+  ) => {
+    const { value } = e.target
+    setFormData((prev: any) => {
+      const updatedContactInfo = [...prev.contact_info[type]]
+      updatedContactInfo[index] = value
       console.log({
         ...prev,
-        contact_info: { ...prev.contact_info, [type]: updatedContactInfo }
+        contact_info: { ...prev.contact_info, [type]: updatedContactInfo },
       })
       return {
         ...prev,
-        contact_info: { ...prev.contact_info, [type]: updatedContactInfo }
-      };
-    });
-  };
+        contact_info: { ...prev.contact_info, [type]: updatedContactInfo },
+      }
+    })
+  }
 
   const handleAddField = (type: string | number) => {
-    setFormData((prev:any) => ({
+    setFormData((prev: any) => ({
       ...prev,
       contact_info: {
         ...prev.contact_info,
-        [type]: [...prev.contact_info[type], '']
-      }
-    }));
-  };
+        [type]: [...prev.contact_info[type], ''],
+      },
+    }))
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -220,7 +224,7 @@ const CareHomeForm = () => {
             font?: string
           }
           // Append settings object as a single stringified JSON
-          formDataToSend.append('settings', JSON.stringify(settings)) 
+          formDataToSend.append('settings', JSON.stringify(settings))
         } else if (key === 'contact_info') {
           const contact_info = value as {
             phone_number: string[]
@@ -229,12 +233,11 @@ const CareHomeForm = () => {
           }
           // Append settings object as a single stringified JSON
           formDataToSend.append('contact_info', JSON.stringify(contact_info))
-        } 
-        else {
+        } else {
           formDataToSend.append(key, value as string)
         }
       }
-      console.log("formDataToSend", formDataToSend)
+      console.log('formDataToSend', formDataToSend)
       // Make the POST request to the API endpoint
       const response = await fetch(
         'http://localhost:9091/api/super/care-homes',
@@ -270,8 +273,8 @@ const CareHomeForm = () => {
         contact_info: {
           phone_number: [''],
           email_address: [''],
-          physical_address: ['']
-        }
+          physical_address: [''],
+        },
       })
       setErrors({})
     } catch (error) {
@@ -425,9 +428,7 @@ const CareHomeForm = () => {
                   onChange={handleChange}
                 />
                 {errors.owner_id && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.owner_id}
-                  </p>
+                  <p className="text-red-500 text-sm mt-1">{errors.owner_id}</p>
                 )}
               </div>
 
@@ -566,107 +567,129 @@ const CareHomeForm = () => {
                 )}
               </div>
 
-          {/* Contact Info - Phone Number */}
-          {formData.contact_info.phone_number.map((phone, index) => (
-            <div key={index}>
-              <label
-                htmlFor={`phone_number_${index}`}
-                className="block text-sm font-medium text-gray-700"
-              >
-                Phone Number
-              </label>
-              <input
-                type="text"
-                name={`phone_number_${index}`}
-                id={`phone_number_${index}`}
-                autoComplete="off"
-                required
-                placeholder="Enter phone number"
-                className={`
+              {/* Contact Info - Phone Number */}
+              {formData.contact_info.phone_number.map((phone, index) => (
+                <div key={index}>
+                  <label
+                    htmlFor={`phone_number_${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Phone Number
+                  </label>
+                  <input
+                    type="text"
+                    name={`phone_number_${index}`}
+                    id={`phone_number_${index}`}
+                    autoComplete="off"
+                    required
+                    placeholder="Enter phone number"
+                    className={`
                   w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary
                   ${errors.contact_info.phone_number && errors.contact_info.phone_number[index] ? 'border-red-500' : ''}`}
-                value={phone}
-                onChange={(e) => handleContactInfoChange(e, 'phone_number', index)}
-              />
-              {errors.contact_info.phone_number && errors.contact_info.phone_number[index] && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.contact_info.phone_number[index]}
-                </p>
-              )}
-            </div>
-          ))}
-          <button type="button" onClick={() => handleAddField('phone_number')}>
-            Add Phone Number
-          </button>
-
-          {/* Contact Info - email_address */}
-          {formData.contact_info.email_address.map((email_address, index) => (
-            <div key={index}>
-              <label
-                htmlFor={`email_address_${index}`}
-                className="block text-sm font-medium text-gray-700"
+                    value={phone}
+                    onChange={(e) =>
+                      handleContactInfoChange(e, 'phone_number', index)
+                    }
+                  />
+                  {errors.contact_info.phone_number &&
+                    errors.contact_info.phone_number[index] && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.contact_info.phone_number[index]}
+                      </p>
+                    )}
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => handleAddField('phone_number')}
               >
-                email_address
-              </label>
-              <input
-                type="email_address"
-                name={`email_address_${index}`}
-                id={`email_address_${index}`}
-                autoComplete="off"
-                required
-                placeholder="Enter email_address"
-                className={`
+                Add Phone Number
+              </button>
+
+              {/* Contact Info - email_address */}
+              {formData.contact_info.email_address.map(
+                (email_address, index) => (
+                  <div key={index}>
+                    <label
+                      htmlFor={`email_address_${index}`}
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      email_address
+                    </label>
+                    <input
+                      type="email_address"
+                      name={`email_address_${index}`}
+                      id={`email_address_${index}`}
+                      autoComplete="off"
+                      required
+                      placeholder="Enter email_address"
+                      className={`
                   w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary
                   ${errors.contact_info.email_address && errors.contact_info.email_address[index] ? 'border-red-500' : ''}`}
-                value={email_address}
-                onChange={(e) => handleContactInfoChange(e, 'email_address', index)}
-              />
-              {errors.contact_info.email_address && errors.contact_info.email_address[index] && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.contact_info.email_address[index]}
-                </p>
+                      value={email_address}
+                      onChange={(e) =>
+                        handleContactInfoChange(e, 'email_address', index)
+                      }
+                    />
+                    {errors.contact_info.email_address &&
+                      errors.contact_info.email_address[index] && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.contact_info.email_address[index]}
+                        </p>
+                      )}
+                  </div>
+                ),
               )}
-            </div>
-          ))}
-          <button type="button" onClick={() => handleAddField('email_address')}>
-            Add email_address
-          </button>
-
-          {/* Contact Info - physical_address */}
-          {formData.contact_info.physical_address.map((physical_address, index) => (
-            <div key={index}>
-              <label
-                htmlFor={`address_${index}`}
-                className="block text-sm font-medium text-gray-700"
+              <button
+                type="button"
+                onClick={() => handleAddField('email_address')}
               >
-                physical_address
-              </label>
-              <input
-                type="text"
-                name={`address_${index}`}
-                id={`address_${index}`}
-                autoComplete="off"
-                required
-                placeholder="Enter physical_address"
-                className={`
+                Add email_address
+              </button>
+
+              {/* Contact Info - physical_address */}
+              {formData.contact_info.physical_address.map(
+                (physical_address, index) => (
+                  <div key={index}>
+                    <label
+                      htmlFor={`address_${index}`}
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      physical_address
+                    </label>
+                    <input
+                      type="text"
+                      name={`address_${index}`}
+                      id={`address_${index}`}
+                      autoComplete="off"
+                      required
+                      placeholder="Enter physical_address"
+                      className={`
                   w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary
                   ${errors.contact_info.physical_address && errors.contact_info.physical_address[index] ? 'border-red-500' : ''}`}
-                value={physical_address}
-                onChange={(e) => handleContactInfoChange(e, 'physical_address', index)}
-              />
-              {errors.contact_info.physical_address && errors.contact_info.physical_address[index] && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.contact_info.physical_address[index]}
-                </p>
+                      value={physical_address}
+                      onChange={(e) =>
+                        handleContactInfoChange(e, 'physical_address', index)
+                      }
+                    />
+                    {errors.contact_info.physical_address &&
+                      errors.contact_info.physical_address[index] && (
+                        <p className="text-red-500 text-sm mt-1">
+                          {errors.contact_info.physical_address[index]}
+                        </p>
+                      )}
+                  </div>
+                ),
               )}
-            </div>
-          ))}
-          <button type="button" onClick={() => handleAddField('physical_address')}>
-            Add physical_address
-          </button>
+              <button
+                type="button"
+                onClick={() => handleAddField('physical_address')}
+              >
+                Add physical_address
+              </button>
 
               <div className="px-4 py-3 text-right sm:px-6">
-              <button
+                <button
                   type="submit"
                   className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
@@ -678,8 +701,7 @@ const CareHomeForm = () => {
         </div>
       </div>
     </div>
-  );
+  )
+}
 
-};
-
-export default CareHomeForm;
+export default CareHomeForm

@@ -1,12 +1,12 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
-import { useParams } from 'react-router-dom';
-import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
-import DefaultLayout from '../layout/DefaultLayout';
-import CoverOne from '../images/cover/cover-01.png';
-import axiosInstance from '../utils/axios';
+import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react'
+import { useParams } from 'react-router-dom'
+import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
+import DefaultLayout from '../layout/DefaultLayout'
+import CoverOne from '../images/cover/cover-01.png'
+import axiosInstance from '../utils/axios'
 
 const UpdateUserProfileForm = () => {
-  const { userId } = useParams<{ userId: string }>();
+  const { userId } = useParams<{ userId: string }>()
 
   const [formData, setFormData] = useState({
     email: '',
@@ -15,90 +15,103 @@ const UpdateUserProfileForm = () => {
     fcm_token: '',
     otp: 0,
     role: 'INTERVIEW_CANDIDATE',
-    email_verification: 'PENDING'
-  });
+    email_verification: 'PENDING',
+  })
 
-  const [loading, setLoading] = useState(true); // State to track loading state
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [previewProfilePicture, setPreviewProfilePicture] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true) // State to track loading state
+  const [errors, setErrors] = useState<{ [key: string]: string }>({})
+  const [previewProfilePicture, setPreviewProfilePicture] = useState<
+    string | null
+  >(null)
 
   useEffect(() => {
     // Fetch user details and set initial form data
-    axiosInstance.get(`/admin/user?id=${userId}`)
-      .then(response => {
-        setFormData(response.data.data); // Set form data with response data
-        setLoading(false); // Set loading to false after data is fetched
+    axiosInstance
+      .get(`/admin/user?id=${userId}`)
+      .then((response) => {
+        setFormData(response.data.data) // Set form data with response data
+        setLoading(false) // Set loading to false after data is fetched
       })
-      .catch(error => {
-        console.error('Error fetching user details:', error);
-        setLoading(false); // Ensure loading is set to false even on error
-      });
-  }, [userId]);
+      .catch((error) => {
+        console.error('Error fetching user details:', error)
+        setLoading(false) // Ensure loading is set to false even on error
+      })
+  }, [userId])
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) => {
+    const { name, value } = e.target
     setFormData({
       ...formData,
-      [name]: value
-    });
-  };
+      [name]: value,
+    })
+  }
 
   const handleProfilePictureChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0]
     if (file) {
-      setFormData(prevState => ({
+      setFormData((prevState) => ({
         ...prevState,
         profile_picture: file,
-      }));
+      }))
 
       // Create object URL for previewing the image
-      const objectUrl = URL.createObjectURL(file);
-      setPreviewProfilePicture(objectUrl); // Save URL to state for preview
+      const objectUrl = URL.createObjectURL(file)
+      setPreviewProfilePicture(objectUrl) // Save URL to state for preview
     }
-  };
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const data_to_send = new FormData();
+      const data_to_send = new FormData()
       for (const key in formData) {
         if (formData.hasOwnProperty(key)) {
-          const value = formData[key as keyof typeof formData];
+          const value = formData[key as keyof typeof formData]
           const allowed_keys = [
-            "email",
-            "password",
-            "active",
-            "fcm_token",
-            "otp",
-            "role",
-            "email_verification",
-            "profile_picture"
+            'email',
+            'password',
+            'active',
+            'fcm_token',
+            'otp',
+            'role',
+            'email_verification',
+            'profile_picture',
           ]
-            if (key == "profile_picture" ) {
-              data_to_send.append(key, formData.profile_picture)
-            }
-          if (key !== "profile_picture" && value !== null && allowed_keys.includes(key)) {
-            data_to_send.append(key, value);
+          if (key == 'profile_picture') {
+            data_to_send.append(key, formData.profile_picture)
+          }
+          if (
+            key !== 'profile_picture' &&
+            value !== null &&
+            allowed_keys.includes(key)
+          ) {
+            data_to_send.append(key, value)
           }
         }
       }
-      
-      const response = await axiosInstance.put(`/admin/user/${userId}`, data_to_send, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
-      alert('User updated successfully');
-      console.log('User updated:', response.data);
+
+      const response = await axiosInstance.put(
+        `/admin/user/${userId}`,
+        data_to_send,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        },
+      )
+      alert('User updated successfully')
+      console.log('User updated:', response.data)
     } catch (error) {
-      console.error('Error updating user:', error);
-      alert('Failed to update user');
+      console.error('Error updating user:', error)
+      alert('Failed to update user')
     }
-  };
+  }
 
   if (loading) {
-    return <div>Loading...</div>; // Display a loading indicator while data is being fetched
+    return <div>Loading...</div> // Display a loading indicator while data is being fetched
   }
   return (
     <DefaultLayout>
@@ -121,7 +134,10 @@ const UpdateUserProfileForm = () => {
               <div className="space-y-2">
                 {/* Profile Picture Upload */}
                 <div className="mb-4">
-                  <label htmlFor="profile_picture" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="profile_picture"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Upload Profile Picture
                   </label>
                   <div className="mt-2 flex items-center">
@@ -135,11 +151,18 @@ const UpdateUserProfileForm = () => {
                     />
                   </div>
                   {previewProfilePicture && (
-                    <img src={previewProfilePicture} alt="Profile Picture Preview" className="mt-2 rounded-md shadow-sm max-w-xs" />
+                    <img
+                      src={previewProfilePicture}
+                      alt="Profile Picture Preview"
+                      className="mt-2 rounded-md shadow-sm max-w-xs"
+                    />
                   )}
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Email
                   </label>
                   <input
@@ -152,10 +175,12 @@ const UpdateUserProfileForm = () => {
                       ${errors.email ? 'border-red-500' : ''}
                     `}
                   />
-                  {errors.email && <span className="text-red-500">{errors.email}</span>}
+                  {errors.email && (
+                    <span className="text-red-500">{errors.email}</span>
+                  )}
                 </div>
                 <div>
-                  <label 
+                  <label
                     htmlFor="fcm_token"
                     className="block text-sm font-medium text-gray-700"
                   >
@@ -168,10 +193,12 @@ const UpdateUserProfileForm = () => {
                     onChange={handleChange}
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
-                  {errors.fcm_token && <span className="text-red-500">{errors.fcm_token}</span>}
+                  {errors.fcm_token && (
+                    <span className="text-red-500">{errors.fcm_token}</span>
+                  )}
                 </div>
                 <div>
-                  <label 
+                  <label
                     htmlFor="otp"
                     className="block text-sm font-medium text-gray-700"
                   >
@@ -184,10 +211,12 @@ const UpdateUserProfileForm = () => {
                     onChange={handleChange}
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
-                  {errors.otp && <span className="text-red-500">{errors.otp}</span>}
+                  {errors.otp && (
+                    <span className="text-red-500">{errors.otp}</span>
+                  )}
                 </div>
                 <div>
-                  <label 
+                  <label
                     htmlFor="role"
                     className="block text-sm font-medium text-gray-700"
                   >
@@ -199,16 +228,22 @@ const UpdateUserProfileForm = () => {
                     onChange={handleChange}
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   >
-                    <option value="INTERVIEW_CANDIDATE">Interview Candidate</option>
+                    <option value="INTERVIEW_CANDIDATE">
+                      Interview Candidate
+                    </option>
                     <option value="ADMINISTRATOR">Administrator</option>
                     <option value="CAREGIVER">Caregiver</option>
                     <option value="RESIDENT">Resident</option>
-                    <option value="HEALTHCARE_PROFESSIONAL">Healthcare Professional</option>
+                    <option value="HEALTHCARE_PROFESSIONAL">
+                      Healthcare Professional
+                    </option>
                   </select>
-                  {errors.role && <span className="text-red-500">{errors.role}</span>}
+                  {errors.role && (
+                    <span className="text-red-500">{errors.role}</span>
+                  )}
                 </div>
                 <div>
-                  <label 
+                  <label
                     htmlFor="email_verification"
                     className="block text-sm font-medium text-gray-700"
                   >
@@ -224,7 +259,11 @@ const UpdateUserProfileForm = () => {
                     <option value="NOTCOMPLETED">Not Completed</option>
                     <option value="PENDING">Pending</option>
                   </select>
-                  {errors.email_verification && <span className="text-red-500">{errors.email_verification}</span>}
+                  {errors.email_verification && (
+                    <span className="text-red-500">
+                      {errors.email_verification}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex justify-end mt-4">
@@ -240,7 +279,7 @@ const UpdateUserProfileForm = () => {
         </div>
       </div>
     </DefaultLayout>
-  );
-};
+  )
+}
 
-export default UpdateUserProfileForm;
+export default UpdateUserProfileForm

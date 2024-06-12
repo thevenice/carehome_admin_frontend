@@ -59,7 +59,7 @@ const CareHomeProfile: React.FC = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       )
 
       if (response.ok) {
@@ -94,7 +94,7 @@ const CareHomeProfile: React.FC = () => {
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ active: !isEnabled }),
-        }
+        },
       )
 
       fetchCareHomeData()
@@ -178,7 +178,7 @@ const CareHomeProfile: React.FC = () => {
                       icon={faCalendarAlt}
                       title="Registration Date"
                       value={new Date(
-                        careHomeData.data.registration_date
+                        careHomeData.data.registration_date,
                       ).toLocaleDateString()}
                     />
                     {careHomeData.data.contact_info?.phone_number && (
@@ -186,7 +186,7 @@ const CareHomeProfile: React.FC = () => {
                         icon={faPhone}
                         title="Phone Number"
                         value={careHomeData.data.contact_info.phone_number.join(
-                          ', '
+                          ', ',
                         )}
                       />
                     )}
@@ -195,7 +195,7 @@ const CareHomeProfile: React.FC = () => {
                         icon={faEnvelope}
                         title="Email Address"
                         value={careHomeData.data.contact_info.email_address.join(
-                          ', '
+                          ', ',
                         )}
                       />
                     )}
@@ -204,7 +204,7 @@ const CareHomeProfile: React.FC = () => {
                         icon={faMapMarkerAlt}
                         title="Physical Address"
                         value={careHomeData.data.contact_info.physical_address.join(
-                          ', '
+                          ', ',
                         )}
                       />
                     )}

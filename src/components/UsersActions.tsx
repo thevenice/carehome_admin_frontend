@@ -1,18 +1,18 @@
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import SwitcherThreeWithProps from './Switchers/SwitcherThreeWithProps';
+import React from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import SwitcherThreeWithProps from './Switchers/SwitcherThreeWithProps'
 
 interface UserActionsProps {
-  isEnabled: boolean;
-  onEditClick: () => void;
-  onToggleClick: () => void;
+  isEnabled: boolean
+  onEditClick: () => void
+  onToggleClick: () => void
 }
 
 const UserActions: React.FC<UserActionsProps> = ({
   isEnabled,
   onEditClick,
-  onToggleClick
+  onToggleClick,
 }) => {
   return (
     <div className="mx-auto mt-4.5 mb-5.5 max-w-94 border border-stroke py-2.5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-md">
@@ -34,7 +34,7 @@ const UserActions: React.FC<UserActionsProps> = ({
         <SwitcherThreeWithProps enabled={isEnabled} onChange={onToggleClick} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UserActions;
+export default UserActions

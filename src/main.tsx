@@ -11,8 +11,8 @@ import { StoreProvider } from './store/storeContext'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Router>
-  <StoreProvider>
-      <App />
+      <StoreProvider>
+        <App />
       </StoreProvider>
     </Router>
   </React.StrictMode>,

@@ -40,10 +40,12 @@ type StoreState = AuthData & { companyData?: CompanyData } & {
 }
 
 const useStore = create<StoreState>(
-  (persist as (
-    config: (set: any, get: any, api: any) => StoreState,
-    options: PersistOptions<StoreState>
-  ) => StateCreator<StoreState, [], []>)(
+  (
+    persist as (
+      config: (set: any, get: any, api: any) => StoreState,
+      options: PersistOptions<StoreState>,
+    ) => StateCreator<StoreState, [], []>
+  )(
     (set, get) => ({
       token: '',
       refreshToken: '',
@@ -74,8 +76,8 @@ const useStore = create<StoreState>(
     {
       name: 'auth-storage',
       getStorage: () => localStorage,
-    }
-  )
+    },
+  ),
 )
 
 export default useStore

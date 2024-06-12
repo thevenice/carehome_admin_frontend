@@ -76,7 +76,9 @@ const CompanyInfo: React.FC = () => {
                   className="w-32 h-32 rounded-full object-cover mb-4"
                 />
                 <h1 className="text-3xl font-bold mb-2">{companyData.name}</h1>
-                <p className="text-center text-gray-600">{companyData.aboutUs}</p>
+                <p className="text-center text-gray-600">
+                  {companyData.aboutUs}
+                </p>
 
                 {/* Contact Info */}
                 <div className="mt-4 flex flex-col items-center">
@@ -196,11 +198,13 @@ const CompanyInfo: React.FC = () => {
               <div className="mt-6 bg-gray-100 p-6 rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold mb-4">Services Offered</h2>
                 <ul className="list-disc list-inside">
-                  {companyData.servicesOffered.map((service: any, index: any) => (
-                    <li key={index} className="mb-2">
-                      {service}
-                    </li>
-                  ))}
+                  {companyData.servicesOffered.map(
+                    (service: any, index: any) => (
+                      <li key={index} className="mb-2">
+                        {service}
+                      </li>
+                    ),
+                  )}
                 </ul>
               </div>
 

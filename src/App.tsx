@@ -29,7 +29,7 @@ import Dashboard from './pages/Dashboard'
 // import ECommerce from './pages/Dashboard/ECommerce'
 // import FormElements from './pages/Form/FormElements'
 // import FormLayout from './pages/Form/FormLayout'
-// 
+//
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true)
@@ -44,11 +44,13 @@ function App() {
     setTimeout(() => setLoading(false), 1000)
   }, [])
 
-
-
   const protectedRoute = (element: JSX.Element) => {
-    console.log("role", role)
-    return token && role === 'ADMINISTRATOR' ? element : <Navigate to="/" replace={true} />
+    console.log('role', role)
+    return token && role === 'ADMINISTRATOR' ? (
+      element
+    ) : (
+      <Navigate to="/" replace={true} />
+    )
   }
 
   return loading ? (
@@ -78,7 +80,7 @@ function App() {
             <>
               <PageTitle title="Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Dashboard />
-            </>
+            </>,
           )}
         />
         <Route
@@ -87,7 +89,7 @@ function App() {
             <>
               <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Profile />
-            </>
+            </>,
           )}
         />
         <Route
@@ -96,7 +98,7 @@ function App() {
             <>
               <PageTitle title="CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <CareHomeProfile />
-            </>
+            </>,
           )}
         />
         <Route
@@ -105,7 +107,7 @@ function App() {
             <>
               <PageTitle title="Users Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <UserProfile />
-            </>
+            </>,
           )}
         />
         <Route
@@ -114,7 +116,7 @@ function App() {
             <>
               <PageTitle title="Update CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <UpdateCareHomeForm />
-            </>
+            </>,
           )}
         />
         <Route
@@ -123,7 +125,7 @@ function App() {
             <>
               <PageTitle title="Update user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <UpdateUserProfileForm />
-            </>
+            </>,
           )}
         />
         <Route
@@ -132,7 +134,7 @@ function App() {
             <>
               <PageTitle title="Create user | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <CreateUserProfile />
-            </>
+            </>,
           )}
         />
         <Route
@@ -141,7 +143,7 @@ function App() {
             <>
               <PageTitle title="Users | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Users />
-            </>
+            </>,
           )}
         />
         <Route
@@ -150,10 +152,10 @@ function App() {
             <>
               <PageTitle title="Update Company Info | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <UpdateCompanyInfo />
-            </>
+            </>,
           )}
         />
-                {/* Plans Routes start */}
+        {/* Plans Routes start */}
         {/* <Route
         path="/plans/:plan_id"
         element={

@@ -1,11 +1,14 @@
-import React from 'react';
+import React from 'react'
 
 interface SwitcherThreeWithPropsProps {
-  enabled: boolean;
-  onChange: (enabled: boolean) => void;
+  enabled: boolean
+  onChange: (enabled: boolean) => void
 }
 
-const SwitcherThreeWithProps: React.FC<SwitcherThreeWithPropsProps> = ({ enabled, onChange }) => {
+const SwitcherThreeWithProps: React.FC<SwitcherThreeWithPropsProps> = ({
+  enabled,
+  onChange,
+}) => {
   return (
     <div>
       <label
@@ -62,7 +65,7 @@ const SwitcherThreeWithProps: React.FC<SwitcherThreeWithPropsProps> = ({ enabled
         </div>
       </label>
     </div>
-  );
-};
+  )
+}
 
-export default SwitcherThreeWithProps;
+export default SwitcherThreeWithProps

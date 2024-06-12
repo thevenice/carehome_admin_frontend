@@ -10,11 +10,7 @@ export const StoreProvider: React.FC = ({ children }) => {
     store.fetchCompanyData()
   }, [store.token, store.userId])
 
-  return (
-    <StoreContext.Provider value={store}>
-      {children}
-    </StoreContext.Provider>
-  )
+  return <StoreContext.Provider value={store}>{children}</StoreContext.Provider>
 }
 
 export const useStoreContext = () => {

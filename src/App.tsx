@@ -4,7 +4,7 @@ import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Loader from './common/Loader'
 import PageTitle from './components/PageTitle'
 import SignIn from './pages/Authentication/SignIn'
-import Profile from './pages/Profile'
+import CompanyInfo from './pages/CompanyInfo'
 import CareHomeProfile from './pages/CareHomeProfile'
 import UpdateCareHomeForm from './pages/UpdateCareHomeForm'
 import Users from './pages/Users'
@@ -63,8 +63,8 @@ function App() {
           element={
             token ? ( // Conditionally render ECommerce based on user login
               <>
-                <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <Profile />
+                <PageTitle title="Company Info Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <Dashboard />
               </>
             ) : (
               <>
@@ -87,8 +87,8 @@ function App() {
           path="/company-info"
           element={protectedRoute(
             <>
-              <PageTitle title="Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Profile />
+              <PageTitle title="Company Info | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <CompanyInfo />
             </>,
           )}
         />

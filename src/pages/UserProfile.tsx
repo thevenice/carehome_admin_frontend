@@ -19,6 +19,7 @@ interface UserData {
     _id: string
     profile_picture: string
     email: string
+    name: string
     active: boolean
     role: string
     email_verification: string
@@ -91,18 +92,21 @@ const UserProfile: React.FC = () => {
       {userData ? (
         <DefaultLayout>
           <Breadcrumb pageName="Users Profile" />
+
           <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
               <div className="mt-4">
+
                 <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
                   {userData.data.email}
                 </h3>
+                <div className="flex flex-col items-center">
                 <img
                   src={userData.data.profile_picture}
                   alt={`${userData.data.email} main`}
                   className="w-32 h-32 rounded-full object-cover mb-4"
                 />
-                <p className="font-medium">Users Profile</p>
+                </div>
                 UserActions
                 {/* Display CareHomeActions component */}
                 <UserActions
@@ -121,6 +125,11 @@ const UserProfile: React.FC = () => {
                       icon={faUser}
                       title="User ID"
                       value={userData.data._id}
+                    />
+                    <CardCareHomeFields
+                      icon={faUser}
+                      title="User Name"
+                      value={userData.data.name}
                     />
                     <CardCareHomeFields
                       icon={faEnvelope}

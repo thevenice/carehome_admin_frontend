@@ -10,6 +10,7 @@ const UpdateUserProfileForm = () => {
 
   const [formData, setFormData] = useState({
     email: '',
+    name: '',
     profile_picture: null as File | null,
     active: false,
     fcm_token: '',
@@ -72,6 +73,7 @@ const UpdateUserProfileForm = () => {
           const value = formData[key as keyof typeof formData]
           const allowed_keys = [
             'email',
+            'name',
             'password',
             'active',
             'fcm_token',
@@ -80,7 +82,7 @@ const UpdateUserProfileForm = () => {
             'email_verification',
             'profile_picture',
           ]
-          if (key == 'profile_picture') {
+          if (key === 'profile_picture' && formData.profile_picture) {
             data_to_send.append(key, formData.profile_picture)
           }
           if (
@@ -156,6 +158,24 @@ const UpdateUserProfileForm = () => {
                       alt="Profile Picture Preview"
                       className="mt-2 rounded-md shadow-sm max-w-xs"
                     />
+                  )}
+                </div>
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Name:
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  />
+                  {errors.name && (
+                    <span className="text-red-500">{errors.name}</span>
                   )}
                 </div>
                 <div>

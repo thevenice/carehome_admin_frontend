@@ -11,7 +11,7 @@ const UpdateUserProfileForm = () => {
   const [formData, setFormData] = useState({
     email: '',
     name: '',
-    profile_picture: null as File | null,
+    profile_picture_image: null as File | null,
     active: false,
     fcm_token: '',
     otp: 0,
@@ -54,7 +54,7 @@ const UpdateUserProfileForm = () => {
     if (file) {
       setFormData((prevState) => ({
         ...prevState,
-        profile_picture: file,
+        profile_picture_image: file,
       }))
 
       // Create object URL for previewing the image
@@ -80,13 +80,13 @@ const UpdateUserProfileForm = () => {
             'otp',
             'role',
             'email_verification',
-            'profile_picture',
+            'profile_picture_image',
           ]
-          if (key === 'profile_picture' && formData.profile_picture) {
-            data_to_send.append(key, formData.profile_picture)
+          if (key === 'profile_picture_image' && formData.profile_picture_image) {
+            data_to_send.append(key, formData.profile_picture_image)
           }
           if (
-            key !== 'profile_picture' &&
+            key !== 'profile_picture_image' &&
             value !== null &&
             allowed_keys.includes(key)
           ) {
@@ -137,7 +137,7 @@ const UpdateUserProfileForm = () => {
                 {/* Profile Picture Upload */}
                 <div className="mb-4">
                   <label
-                    htmlFor="profile_picture"
+                    htmlFor="profile_picture_image"
                     className="block text-sm font-medium text-gray-700"
                   >
                     Upload Profile Picture
@@ -145,8 +145,8 @@ const UpdateUserProfileForm = () => {
                   <div className="mt-2 flex items-center">
                     <input
                       type="file"
-                      id="profile_picture"
-                      name="profile_picture"
+                      id="profile_picture_image"
+                      name="profile_picture_image"
                       accept="image/*"
                       className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                       onChange={handleProfilePictureChange}

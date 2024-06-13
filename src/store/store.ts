@@ -34,9 +34,25 @@ type AuthData = {
   role: string
 }
 
-type StoreState = AuthData & { companyData?: CompanyData } & {
+type LoggedUserData = {
+  _id: string
+  email: string
+  active: boolean
+  role: string
+  email_verification: string
+  createdAt: string
+  updatedAt: string
+  fcm_token: string
+  profile_picture: string
+  name: string
+}
+
+type StoreState = AuthData & {
+  companyData?: CompanyData
+  loggedUserData?: LoggedUserData
   setAuthData: (data: AuthData) => void
   fetchCompanyData: () => Promise<void>
+  fetchLoggedUserData: () => Promise<void>
 }
 
 const useStore = create<StoreState>(
@@ -44,7 +60,7 @@ const useStore = create<StoreState>(
     persist as (
       config: (set: any, get: any, api: any) => StoreState,
       options: PersistOptions<StoreState>,
-    ) => StateCreator<StoreState, [], []>
+    ) => any
   )(
     (set, get) => ({
       token: '',
@@ -52,10 +68,11 @@ const useStore = create<StoreState>(
       userId: '',
       role: '',
       companyData: undefined,
+      loggedUserData: undefined,
       setAuthData: (data: AuthData) => set(data),
       fetchCompanyData: async () => {
-        const { token, userId } = get()
-        if (!token || !userId) return
+        const { token } = get()
+        if (!token) return
 
         try {
           const response = await axiosInstance.get('/admin/company-info', {
@@ -70,6 +87,37 @@ const useStore = create<StoreState>(
           }
         } catch (error) {
           console.error('Error fetching company info:', error)
+        }
+      },
+      fetchLoggedUserData: async () => {
+        const { token, userId } = get()
+        if (!token || !userId) return
+
+        try {
+          const response = await axiosInstance.get(`/admin/user?id=${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          if (response.data.success) {
+            const dataToSet = {
+              _id: response.data.data._id,
+              email: response.data.data.email,
+              active: response.data.data.active,
+              role: response.data.data.role,
+              email_verification: response.data.data.email_verification,
+              createdAt: response.data.data.createdAt,
+              updatedAt: response.data.data.updatedAt,
+              fcm_token: response.data.data.fcm_token,
+              profile_picture: response.data.data.profile_picture,
+              name: response.data.data.name,
+            }
+            set({ loggedUserData: dataToSet })
+          } else {
+            console.error('Failed to fetch logged user data')
+          }
+        } catch (error) {
+          console.error('Error fetching logged user data:', error)
         }
       },
     }),

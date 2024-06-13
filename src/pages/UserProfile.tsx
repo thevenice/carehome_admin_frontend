@@ -76,6 +76,8 @@ const UserProfile: React.FC = () => {
       fetchUserData()
       if (!response.ok) {
         console.error('Failed to update user status')
+      } else {
+        alert('User status updated successfully')
       }
     } catch (error) {
       console.error('Error updating user status', error)
@@ -97,9 +99,6 @@ const UserProfile: React.FC = () => {
             <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
               <div className="mt-4">
 
-                <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
-                  {userData.data.email}
-                </h3>
                 <div className="flex flex-col items-center">
                 <img
                   src={userData.data.profile_picture}
@@ -107,7 +106,10 @@ const UserProfile: React.FC = () => {
                   className="w-32 h-32 rounded-full object-cover mb-4"
                 />
                 </div>
-                UserActions
+   
+                <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
+                  {userData.data.name}
+                </h3>
                 {/* Display CareHomeActions component */}
                 <UserActions
                   isEnabled={isActive}

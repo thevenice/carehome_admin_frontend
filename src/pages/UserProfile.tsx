@@ -33,13 +33,13 @@ const UserProfile: React.FC = () => {
   const [isActive, setIsActive] = useState<boolean>(true)
   const [userData, setUserData] = useState<UserData | null>(null)
   const { user_id } = useParams<{ user_id: string }>()
-
-  const { token } = useStore()
+  const { token, userId } = useStore()
   const navigate = useNavigate()
-
+  
+  const user_id_data = user_id ? user_id : userId
   const fetchUserData = async () => {
     try {
-      const response = await axiosInstance.get(`/admin/user?id=${user_id}`)
+      const response = await axiosInstance.get(`/admin/user?id=${user_id_data}`)
       if (response.data.success) {
         setUserData(response.data)
       } else {
@@ -50,11 +50,11 @@ const UserProfile: React.FC = () => {
     }
   }
 
-  const handleEditClick = (user_id: string | null) => {
-    if (user_id === null) {
+  const handleEditClick = (user_id_data: string | null) => {
+    if (user_id_data === null) {
       console.log(null)
     }
-    navigate(`/users/update/${user_id}`)
+    navigate(`/users/update/${user_id_data}`)
   }
 
   const handleToggleClick = async () => {
@@ -62,7 +62,7 @@ const UserProfile: React.FC = () => {
     setIsActive((prev) => !prev)
     try {
       const response = await fetch(
-        `http://localhost:9091/api/admin/user/${user_id}`,
+        `http://localhost:9091/api/admin/user/${user_id_data}`,
         {
           method: 'PUT',
           headers: {
@@ -84,10 +84,10 @@ const UserProfile: React.FC = () => {
     }
   }
   useEffect(() => {
-    if (user_id) {
+    if (user_id_data) {
       fetchUserData()
     }
-  }, [user_id])
+  }, [user_id_data])
 
   return (
     <>
@@ -114,7 +114,7 @@ const UserProfile: React.FC = () => {
                 <UserActions
                   isEnabled={isActive}
                   onEditClick={() =>
-                    handleEditClick(!!user_id ? user_id : null)
+                    handleEditClick(!!user_id_data ? user_id_data : null)
                   }
                   onToggleClick={handleToggleClick}
                 />

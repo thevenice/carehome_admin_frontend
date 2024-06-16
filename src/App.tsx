@@ -15,6 +15,15 @@ import UpdateCompanyInfo from './pages/UpdateCompanyInfo'
 import useStore from './store/store'
 import ECommerce from './pages/Dashboard'
 import Dashboard from './pages/Dashboard'
+import Settings from './pages/Settings'
+import CareHomes from './pages/CareHomes'
+import Chart from './pages/Chart'
+import FormElements from './pages/Form/FormElements'
+import FormLayout from './pages/Form/FormLayout'
+import Plans from './pages/Plans'
+import Alerts from './pages/UiElements/Alerts'
+import Buttons from './pages/UiElements/Buttons'
+import PlanDetails from './pages/PlanDetails'
 
 //
 // import PlanDetails from './pages/PlanDetails'
@@ -102,6 +111,15 @@ function App() {
           )}
         />
         <Route
+          path="/profile"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Users Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <UserProfile />
+            </>,
+          )}
+        />
+        <Route
           path="/users/:user_id"
           element={protectedRoute(
             <>
@@ -156,7 +174,7 @@ function App() {
           )}
         />
         {/* Plans Routes start */}
-        {/* <Route
+        <Route
         path="/plans/:plan_id"
         element={
           token ? ( // Only render CareHomeProfile if signed in
@@ -169,17 +187,16 @@ function App() {
             <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
           )
         }
-      /> */}
-        {/*  Plans Routes End*/}
+      />
         {/* Public routes (accessible without login) */}
-        {/*       <Route path="/forms/form-elements" element={<FormElements />} />
+        <Route path="/forms/form-elements" element={<FormElements />} />
         <Route path="/forms/form-layout" element={<FormLayout />} />
         <Route path="/carehomes" element={<CareHomes />} />
         <Route path="/plans" element={<Plans />} />
         <Route path="/chart" element={<Chart />} />
         <Route path="/ui/alerts" element={<Alerts />} />
-      <Route path="/ui/buttons" element={<Buttons />} /> */}
-        {/* <Route path="/settings" element={<Settings />} /> */}
+      <Route path="/ui/buttons" element={<Buttons />} />
+        <Route path="/settings" element={<Settings />} />
       </Routes>
     </>
   )

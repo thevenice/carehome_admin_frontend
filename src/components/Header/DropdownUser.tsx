@@ -26,7 +26,6 @@ const DropdownUser = () => {
         await fetchLoggedUserData()
         const fetchedUserData = useStore.getState().loggedUserData
         setUserData(fetchedUserData)
-        console.log('userData: ', fetchedUserData)
       }
     }
 

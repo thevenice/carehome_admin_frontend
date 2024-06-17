@@ -7,6 +7,14 @@ import {
   faCalendarAlt,
   faEnvelope,
   faEdit,
+  faPhone,
+  faHome,
+  faBriefcase,
+  faAward,
+  faLanguage,
+  faCertificate,
+  faHospital,
+  faClock,
 } from '@fortawesome/free-solid-svg-icons'
 import axiosInstance from '../utils/axios'
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
@@ -34,6 +42,7 @@ interface UserData {
 const UserProfile: React.FC = () => {
   const [isActive, setIsActive] = useState<boolean>(true)
   const [userData, setUserData] = useState<UserData | null>(null)
+  const [userProfileData, setUserProfileData] = useState<any | null>(null)
   const { user_id } = useParams<{ user_id: string }>()
   const { token, userId } = useStore()
   const navigate = useNavigate()
@@ -44,6 +53,42 @@ const UserProfile: React.FC = () => {
       const response = await axiosInstance.get(`/admin/user?id=${user_id_data}`)
       if (response.data.success) {
         setUserData(response.data)
+      } else {
+        console.error('Error:', response.data)
+      }
+    } catch (error) {
+      console.error('Error fetching user data', error)
+    }
+  }
+  const fetchUserProfileData = async () => {
+    try {
+      const role = userData?.data.role // Assuming userData has a role property
+      let url = ''
+
+      switch (role) {
+        case 'CAREGIVER':
+          url = `/admin/caregivers?userId=${user_id_data}`
+          break
+        case 'INTERVIEW_CANDIDATE':
+          // Define URL for INTERVIEW_CANDIDATE (if applicable)
+          break
+        case 'ADMINISTRATOR':
+          // Define URL for ADMINISTRATOR (if applicable)
+          break
+        case 'RESIDENT':
+          // Define URL for RESIDENT (if applicable)
+          break
+        case 'HEALTHCARE_PROFESSIONAL':
+          // Define URL for HEALTHCARE_PROFESSIONAL (if applicable)
+          break
+        default:
+          console.error('Unhandled role:', role)
+          return // Exit if role is not recognized
+      }
+
+      const response = await axiosInstance.get(url)
+      if (response.data.success) {
+        setUserProfileData(response.data)
       } else {
         console.error('Error:', response.data)
       }
@@ -75,7 +120,8 @@ const UserProfile: React.FC = () => {
         },
       )
 
-      fetchUserData()
+      await fetchUserData()
+      await fetchUserProfileData()
       if (!response.ok) {
         console.error('Failed to update user status')
       } else {
@@ -85,9 +131,12 @@ const UserProfile: React.FC = () => {
       console.error('Error updating user status', error)
     }
   }
+
   useEffect(() => {
     if (user_id_data) {
       fetchUserData()
+      fetchUserProfileData()
+      console.log('userProfileData', userProfileData)
     }
   }, [user_id_data])
 
@@ -172,21 +221,126 @@ const UserProfile: React.FC = () => {
                       ).toLocaleDateString()}
                     />
                   </div>
-                  {/* Button to create/update caregiver profile */}
-                  {userData.data.role === 'CAREGIVER' ? (
-                    <div className="flex justify-center mt-6">
-                      <button
-                        onClick={() =>
-                          handleCreateUpdateCaregiver(userData.data._id)
-                        }
-                        className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
-                      >
-                        <FontAwesomeIcon icon={faEdit} />  
-                        Create/Update Caregiver Profile
-                      </button>
+
+                  {/* Additional Caregiver Profile Data */}
+                  {userData.data.role === 'CAREGIVER' && userProfileData && (
+                    <div className="mt-6.5">
+                      <h4 className="mb-3.5 font-medium text-black dark:text-white">
+                        CAREGIVER PROFILE:
+                      </h4>
+                      {/* Button to create/update caregiver profile */}
+                      {userData.data.role === 'CAREGIVER' ? (
+                        <div className="flex justify-center mt-6 mb-2">
+                          <button
+                            onClick={() =>
+                              handleCreateUpdateCaregiver(userData.data._id)
+                            }
+                            className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
+                          >
+                            <FontAwesomeIcon icon={faEdit} />
+                            Create/Update Caregiver Profile
+                          </button>
+                        </div>
+                      ) : (
+                        ''
+                      )}
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <CardCareHomeFields
+                          icon={faPhone}
+                          title="Contact Number"
+                          value={userProfileData.data.contactNumber}
+                        />
+                        <CardCareHomeFields
+                          icon={faHome}
+                          title="Address"
+                          value={userProfileData.data.address}
+                        />
+                        <CardCareHomeFields
+                          icon={faBriefcase}
+                          title="Specialization"
+                          value={userProfileData.data.specialization}
+                        />
+                        <CardCareHomeFields
+                          icon={faCertificate}
+                          title="License Number"
+                          value={userProfileData.data.licenseNumber}
+                        />
+                        <CardCareHomeFields
+                          icon={faCalendarAlt}
+                          title="Years of Experience"
+                          value={userProfileData.data.yearsOfExperience}
+                        />
+                        <CardCareHomeFields
+                          icon={faAward}
+                          title="Qualifications"
+                          value={userProfileData.data.qualifications.join(', ')}
+                        />
+                        <CardCareHomeFields
+                          icon={faBriefcase}
+                          title="Skills"
+                          value={userProfileData.data.skills.join(', ')}
+                        />
+                        <CardCareHomeFields
+                          icon={faClock}
+                          title="Preferred Shifts"
+                          value={userProfileData.data.preferredShifts.join(
+                            ', ',
+                          )}
+                        />
+                        <CardCareHomeFields
+                          icon={faHospital}
+                          title="Work Location Preferences"
+                          value={userProfileData.data.workLocationPreferences.join(
+                            ', ',
+                          )}
+                        />
+                        <CardCareHomeFields
+                          icon={faLanguage}
+                          title="Languages Spoken"
+                          value={userProfileData.data.languagesSpoken.join(
+                            ', ',
+                          )}
+                        />
+                        <CardCareHomeFields
+                          icon={faCertificate}
+                          title="Certifications"
+                          value={userProfileData.data.certifications.join(', ')}
+                        />
+                        <CardCareHomeFields
+                          icon={faCalendarAlt}
+                          title="Availability Days"
+                          value={userProfileData.data.availability.days.join(
+                            ', ',
+                          )}
+                        />
+                        <CardCareHomeFields
+                          icon={faClock}
+                          title="Availability Time Slots"
+                          value={userProfileData.data.availability.timeSlots.join(
+                            ', ',
+                          )}
+                        />
+                        <CardCareHomeFields
+                          icon={faUser}
+                          title="Emergency Contact Name"
+                          value={userProfileData.data.emergencyContact.name}
+                        />
+                        <CardCareHomeFields
+                          icon={faUser}
+                          title="Emergency Contact Relationship"
+                          value={
+                            userProfileData.data.emergencyContact.relationship
+                          }
+                        />
+                        <CardCareHomeFields
+                          icon={faPhone}
+                          title="Emergency Contact Phone Number"
+                          value={
+                            userProfileData.data.emergencyContact.phoneNumber
+                          }
+                        />
+                      </div>
                     </div>
-                  ) : (
-                    ''
                   )}
                 </div>
               </div>

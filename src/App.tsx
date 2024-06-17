@@ -24,6 +24,7 @@ import Plans from './pages/Plans'
 import Alerts from './pages/UiElements/Alerts'
 import Buttons from './pages/UiElements/Buttons'
 import PlanDetails from './pages/PlanDetails'
+import CaregiverCreateUpdateForm from './pages/CreateUpdateCaregiverProfile'
 
 //
 // import PlanDetails from './pages/PlanDetails'
@@ -134,6 +135,15 @@ function App() {
             <>
               <PageTitle title="Update CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <UpdateCareHomeForm />
+            </>,
+          )}
+        />
+        <Route
+          path="/caregivers/create-update/:userId"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Update CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <CaregiverCreateUpdateForm />
             </>,
           )}
         />

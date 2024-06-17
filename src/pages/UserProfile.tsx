@@ -6,12 +6,14 @@ import {
   faUser,
   faCalendarAlt,
   faEnvelope,
+  faEdit,
 } from '@fortawesome/free-solid-svg-icons'
 import axiosInstance from '../utils/axios'
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 import CardCareHomeFields from '../components/CardCareHomeFields'
 import DefaultLayout from '../layout/DefaultLayout'
 import UserActions from '../components/UsersActions'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface UserData {
   success: boolean
@@ -35,7 +37,7 @@ const UserProfile: React.FC = () => {
   const { user_id } = useParams<{ user_id: string }>()
   const { token, userId } = useStore()
   const navigate = useNavigate()
-  
+
   const user_id_data = user_id ? user_id : userId
   const fetchUserData = async () => {
     try {
@@ -89,6 +91,10 @@ const UserProfile: React.FC = () => {
     }
   }, [user_id_data])
 
+  const handleCreateUpdateCaregiver = (userId: string) => {
+    navigate(`/caregivers/create-update/${userId}`)
+  }
+
   return (
     <>
       {userData ? (
@@ -98,19 +104,17 @@ const UserProfile: React.FC = () => {
           <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
               <div className="mt-4">
-
                 <div className="flex flex-col items-center">
-                <img
-                  src={userData.data.profile_picture}
-                  alt={`${userData.data.email} main`}
-                  className="w-32 h-32 rounded-full object-cover mb-4"
-                />
+                  <img
+                    src={userData.data.profile_picture}
+                    alt={`${userData.data.email} main`}
+                    className="w-32 h-32 rounded-full object-cover mb-4"
+                  />
                 </div>
-   
+
                 <h3 className="mb-1.5 text-2xl font-semibold text-black dark:text-white">
                   {userData.data.name}
                 </h3>
-                {/* Display CareHomeActions component */}
                 <UserActions
                   isEnabled={isActive}
                   onEditClick={() =>
@@ -168,6 +172,22 @@ const UserProfile: React.FC = () => {
                       ).toLocaleDateString()}
                     />
                   </div>
+                  {/* Button to create/update caregiver profile */}
+                  {userData.data.role === 'CAREGIVER' ? (
+                    <div className="flex justify-center mt-6">
+                      <button
+                        onClick={() =>
+                          handleCreateUpdateCaregiver(userData.data._id)
+                        }
+                        className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
+                      >
+                        <FontAwesomeIcon icon={faEdit} />  
+                        Create/Update Caregiver Profile
+                      </button>
+                    </div>
+                  ) : (
+                    ''
+                  )}
                 </div>
               </div>
             </div>

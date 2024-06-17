@@ -26,7 +26,7 @@ const UserActions: React.FC<UserActionsProps> = ({
           className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
         >
           <FontAwesomeIcon icon={faEdit} />
-          Edit
+          Edit User
         </button>
       </div>
       <div className="flex justify-between items-center px-4 mt-4">

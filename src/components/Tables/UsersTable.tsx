@@ -110,7 +110,7 @@ const UserTable = () => {
           <select
             value={selectedRole}
             onChange={handleRoleChange}
-            className="px-2 py-1 border border-gray-300 rounded"
+            className="px-2 py-1 border border-blue-300 rounded bg-blue-500 text-white"
           >
             <option value="">Filter by Role</option>
             <option value="INTERVIEW_CANDIDATE">Interview Candidate</option>

@@ -48,6 +48,7 @@ const UserProfile: React.FC = () => {
   const navigate = useNavigate()
 
   const user_id_data = user_id ? user_id : userId
+
   const fetchUserData = async () => {
     try {
       const response = await axiosInstance.get(`/admin/user?id=${user_id_data}`)
@@ -60,9 +61,11 @@ const UserProfile: React.FC = () => {
       console.error('Error fetching user data', error)
     }
   }
+
   const fetchUserProfileData = async () => {
+    if (!userData) return // Wait until userData is set
     try {
-      const role = userData?.data.role // Assuming userData has a role property
+      const role = userData.data.role
       let url = ''
 
       switch (role) {
@@ -79,7 +82,7 @@ const UserProfile: React.FC = () => {
           // Define URL for RESIDENT (if applicable)
           break
         case 'HEALTHCARE_PROFESSIONAL':
-          // Define URL for HEALTHCARE_PROFESSIONAL (if applicable)
+          url = `/admin/healthcare-professionals?userId=${user_id_data}`
           break
         default:
           console.error('Unhandled role:', role)
@@ -93,9 +96,20 @@ const UserProfile: React.FC = () => {
         console.error('Error:', response.data)
       }
     } catch (error) {
-      console.error('Error fetching user data', error)
+      console.error('Error fetching profile data', error)
     }
   }
+
+  useEffect(() => {
+    fetchUserData()
+  }, [user_id_data])
+
+  useEffect(() => {
+
+    if (userData) {
+      fetchUserProfileData()
+    }
+  }, [user_id_data, userData])
 
   const handleEditClick = (user_id_data: string | null) => {
     if (user_id_data === null) {
@@ -120,25 +134,17 @@ const UserProfile: React.FC = () => {
         },
       )
 
-      await fetchUserData()
-      await fetchUserProfileData()
       if (!response.ok) {
         console.error('Failed to update user status')
       } else {
         alert('User status updated successfully')
+        fetchUserData()
+        fetchUserProfileData()
       }
     } catch (error) {
       console.error('Error updating user status', error)
     }
   }
-
-  useEffect(() => {
-    if (user_id_data) {
-      fetchUserData()
-      fetchUserProfileData()
-      console.log('userProfileData', userProfileData)
-    }
-  }, [user_id_data])
 
   const handleCreateUpdateCaregiver = (userId: string) => {
     navigate(`/caregivers/create-update/${userId}`)
@@ -167,7 +173,7 @@ const UserProfile: React.FC = () => {
                 <UserActions
                   isEnabled={isActive}
                   onEditClick={() =>
-                    handleEditClick(!!user_id_data ? user_id_data : null)
+                    handleEditClick(user_id_data)
                   }
                   onToggleClick={handleToggleClick}
                 />
@@ -223,27 +229,22 @@ const UserProfile: React.FC = () => {
                   </div>
 
                   {/* Additional Caregiver Profile Data */}
-                  {userData.data.role === 'CAREGIVER' && userProfileData && (
+                  { userProfileData ? (
                     <div className="mt-6.5">
                       <h4 className="mb-3.5 font-medium text-black dark:text-white">
-                        CAREGIVER PROFILE:
+                        PROFILE INFO:
                       </h4>
-                      {/* Button to create/update caregiver profile */}
-                      {userData.data.role === 'CAREGIVER' ? (
-                        <div className="flex justify-center mt-6 mb-2">
-                          <button
-                            onClick={() =>
-                              handleCreateUpdateCaregiver(userData.data._id)
-                            }
-                            className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
-                          >
-                            <FontAwesomeIcon icon={faEdit} />
-                            Create/Update Caregiver Profile
-                          </button>
-                        </div>
-                      ) : (
-                        ''
-                      )}
+                      <div className="flex justify-center mt-6 mb-2">
+                        <button
+                          onClick={() =>
+                            handleCreateUpdateCaregiver(userData.data._id)
+                          }
+                          className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
+                        >
+                          <FontAwesomeIcon icon={faEdit} />
+                          Create/Update Caregiver Profile
+                        </button>
+                      </div>
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <CardCareHomeFields
                           icon={faPhone}
@@ -341,6 +342,8 @@ const UserProfile: React.FC = () => {
                         />
                       </div>
                     </div>
+                  ) : userProfileData == null ? '' : (
+                    <div>Loading...</div>
                   )}
                 </div>
               </div>

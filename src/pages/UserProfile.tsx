@@ -227,7 +227,7 @@ const UserProfile: React.FC = () => {
                       ).toLocaleDateString()}
                     />
                   </div>
-                    <div className='mt-3.5'>
+{                   userData && userData.data.role == "CAREGIVER" && ( <div className='mt-3.5'>
                     <h4 className="mb-3.5 font-medium text-black dark:text-white">
                         PROFILE INFO:
                       </h4>
@@ -242,9 +242,9 @@ const UserProfile: React.FC = () => {
                           Create/Update Caregiver Profile
                         </button>
                       </div>
-                    </div>
+                    </div>)}
                   {/* Additional Caregiver Profile Data */}
-                  { userProfileData ? (
+                  { userData && userData.data.role == "CAREGIVER" && userProfileData ? (
                     <div className="mt-3.5">
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <CardCareHomeFields

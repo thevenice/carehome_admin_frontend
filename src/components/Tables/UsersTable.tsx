@@ -18,15 +18,20 @@ const UserTable = () => {
     currentPage: 1,
   });
   const [selectedRole, setSelectedRole] = useState(''); // New state for selected role filter
+  const [activeParam, setActiveParam] = useState("all"); // New state for selected role filter
 
   const fetchUsers = async () => {
     try {
+      const params_to_send:any = {
+        page: pagination.currentPage,
+        limit: pagination.limit,
+        role: selectedRole, // Pass selected role as a query parameter
+      }
+      if (activeParam !== "all") {
+        params_to_send.active = activeParam === "active" ? true : false
+      }
       const response = await axiosInstance.get('/admin/user', {
-        params: {
-          page: pagination.currentPage,
-          limit: pagination.limit,
-          role: selectedRole, // Pass selected role as a query parameter
-        },
+        params: params_to_send
       });
       if (response.data.success) {
         setUsers(response.data.data);
@@ -46,7 +51,7 @@ const UserTable = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [pagination.currentPage, pagination.limit, selectedRole]); // Add selectedRole to dependency array
+  }, [pagination.currentPage, pagination.limit, selectedRole, activeParam]); // Add selectedRole to dependency array
 
   const handlePreviousPage = () => {
     setPagination((prev) => ({
@@ -81,6 +86,10 @@ const UserTable = () => {
 
   const handleRoleChange = (event:any) => {
     setSelectedRole(event.target.value);
+  };
+
+  const handleActiveParamChange = (event:any) => {
+    setActiveParam(event.target.value);
   };
 
   return (
@@ -118,6 +127,16 @@ const UserTable = () => {
             <option value="CAREGIVER">Caregiver</option>
             <option value="RESIDENT">Resident</option>
             <option value="HEALTHCARE_PROFESSIONAL">Healthcare Professional</option>
+          </select>
+          <select
+            value={activeParam}
+            onChange={handleActiveParamChange}
+            className="px-2 py-1 border border-blue-300 rounded bg-blue-500 text-white"
+          >
+            <option value="all">Filter by Active</option>
+            <option value="active">active</option>
+            <option value="inactive">inactive</option>
+
           </select>
         </div>
       </div>

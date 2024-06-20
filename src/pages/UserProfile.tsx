@@ -146,6 +146,10 @@ const UserProfile: React.FC = () => {
     }
   }
 
+  const handleCreateUpdateHealthcareProffesional = (userId: string) => {
+    navigate(`/healthcareProffesional/create-update/${userId}`)
+  }
+
   const handleCreateUpdateCaregiver = (userId: string) => {
     navigate(`/caregivers/create-update/${userId}`)
   }
@@ -227,6 +231,22 @@ const UserProfile: React.FC = () => {
                       ).toLocaleDateString()}
                     />
                   </div>
+{                   userData && userData.data.role == "HEALTHCARE_PROFESSIONAL" && ( <div className='mt-3.5'>
+                    <h4 className="mb-3.5 font-medium text-black dark:text-white">
+                        PROFILE INFO:
+                      </h4>
+                      <div className="flex justify-center mt-6 mb-2">
+                        <button
+                          onClick={() =>
+                            handleCreateUpdateHealthcareProffesional(userData.data._id)
+                          }
+                          className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
+                        >
+                          <FontAwesomeIcon icon={faEdit} />
+                          Create/Update Healthcare Proffesional Profile
+                        </button>
+                      </div>
+                    </div>)}
 {                   userData && userData.data.role == "CAREGIVER" && ( <div className='mt-3.5'>
                     <h4 className="mb-3.5 font-medium text-black dark:text-white">
                         PROFILE INFO:
@@ -243,8 +263,8 @@ const UserProfile: React.FC = () => {
                         </button>
                       </div>
                     </div>)}
-                  {/* Additional Caregiver Profile Data */}
-                  { userData && userData.data.role == "CAREGIVER" && userProfileData ? (
+                  {/* Additional HEALTHCARE_PROFESSIONAL Profile Data */}
+                  { userData && userData.data.role == "HEALTHCARE_PROFESSIONAL" && userProfileData ? (
                     <div className="mt-3.5">
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <CardCareHomeFields
@@ -343,8 +363,10 @@ const UserProfile: React.FC = () => {
                         />
                       </div>
                     </div>
-                  ) : userProfileData == null ? '' : (
-                    <div>Loading...</div>
+                  ) : userProfileData == null ? '' :
+                   userProfileData != null && userData.data.role == "HEALTHCARE_PROFESSIONAL" ? <div>Loading...</div> :
+                  (
+                    ''
                   )}
                 </div>
               </div>

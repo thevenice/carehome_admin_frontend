@@ -263,6 +263,112 @@ const UserProfile: React.FC = () => {
                         </button>
                       </div>
                     </div>)}
+                  {/* Additional Caregiver Profile Data */}
+                  { userData && userData.data.role == "CAREGIVER" && userProfileData ? (
+                    <div className="mt-3.5">
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <CardCareHomeFields
+                          icon={faPhone}
+                          title="Contact Number"
+                          value={userProfileData.data.contactNumber}
+                        />
+                        <CardCareHomeFields
+                          icon={faHome}
+                          title="Address"
+                          value={userProfileData.data.address}
+                        />
+                        <CardCareHomeFields
+                          icon={faBriefcase}
+                          title="Specialization"
+                          value={userProfileData.data.specialization}
+                        />
+                        <CardCareHomeFields
+                          icon={faCertificate}
+                          title="License Number"
+                          value={userProfileData.data.licenseNumber}
+                        />
+                        <CardCareHomeFields
+                          icon={faCalendarAlt}
+                          title="Years of Experience"
+                          value={userProfileData.data.yearsOfExperience}
+                        />
+                        <CardCareHomeFields
+                          icon={faAward}
+                          title="Qualifications"
+                          value={userProfileData.data.qualifications.join(', ')}
+                        />
+                        <CardCareHomeFields
+                          icon={faBriefcase}
+                          title="Skills"
+                          value={userProfileData.data.skills.join(', ')}
+                        />
+                        <CardCareHomeFields
+                          icon={faClock}
+                          title="Preferred Shifts"
+                          value={userProfileData.data.preferredShifts.join(
+                            ', ',
+                          )}
+                        />
+                        <CardCareHomeFields
+                          icon={faHospital}
+                          title="Work Location Preferences"
+                          value={userProfileData.data.workLocationPreferences.join(
+                            ', ',
+                          )}
+                        />
+                        <CardCareHomeFields
+                          icon={faLanguage}
+                          title="Languages Spoken"
+                          value={userProfileData.data.languagesSpoken.join(
+                            ', ',
+                          )}
+                        />
+                        <CardCareHomeFields
+                          icon={faCertificate}
+                          title="Certifications"
+                          value={userProfileData.data.certifications.join(', ')}
+                        />
+                        <CardCareHomeFields
+                          icon={faCalendarAlt}
+                          title="Availability Days"
+                          value={userProfileData.data.availability.days.join(
+                            ', ',
+                          )}
+                        />
+                        <CardCareHomeFields
+                          icon={faClock}
+                          title="Availability Time Slots"
+                          value={userProfileData.data.availability.timeSlots.join(
+                            ', ',
+                          )}
+                        />
+                        <CardCareHomeFields
+                          icon={faUser}
+                          title="Emergency Contact Name"
+                          value={userProfileData.data.emergencyContact.name}
+                        />
+                        <CardCareHomeFields
+                          icon={faUser}
+                          title="Emergency Contact Relationship"
+                          value={
+                            userProfileData.data.emergencyContact.relationship
+                          }
+                        />
+                        <CardCareHomeFields
+                          icon={faPhone}
+                          title="Emergency Contact Phone Number"
+                          value={
+                            userProfileData.data.emergencyContact.phoneNumber
+                          }
+                        />
+                      </div>
+                    </div>
+                  ) : userProfileData == null ? '' :
+                   userProfileData != null && userData.data.role == "CAREGIVER" ? <div>Loading...</div> :
+                  (
+                    ''
+                  )}
+
                   {/* Additional HEALTHCARE_PROFESSIONAL Profile Data */}
                   { userData && userData.data.role == "HEALTHCARE_PROFESSIONAL" && userProfileData ? (
                     <div className="mt-3.5">

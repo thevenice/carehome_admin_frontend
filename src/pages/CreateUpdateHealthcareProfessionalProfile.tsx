@@ -66,7 +66,7 @@ const HealthcareProfessionalUpdateForm: React.FC = () => {
 
   const fetchHealthcareProfessional = async () => {
     try {
-      const response = await axiosInstance.get(`/admin/healthcare-professionals/${userId}`);
+      const response = await axiosInstance.get(`/admin/healthcare-professionals?userId=${userId}`);
       if (response.data.success) {
         const dataToSend = response.data.data 
         delete dataToSend._id

@@ -10,6 +10,7 @@ import DefaultLayout from '../layout/DefaultLayout'
 import PlanForm from '../components/Forms/PlanForm'
 import CareHomeForm from '../components/Forms/CareHomeForm'
 import CreateUserForm from '../components/Forms/CreateUserForm'
+import CreateDocument from '../components/Forms/CreateDocument'
 
 const Dashboard: React.FC = () => {
   return (
@@ -103,7 +104,7 @@ const Dashboard: React.FC = () => {
 
       <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 2xl:gap-7.5">
         <div className="w-full">
-          <PlanForm />
+          <CreateDocument />
         </div>
         <div className="w-full">
           <CreateUserForm />

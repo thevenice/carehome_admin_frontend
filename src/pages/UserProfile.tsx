@@ -147,11 +147,11 @@ const UserProfile: React.FC = () => {
   }
 
   const handleCreateUpdateHealthcareProffesional = (userId: string) => {
-    navigate(`/healthcareProffesional/create-update/${userId}`)
+    navigate(`/users/healthcareProffesional/create-update/${userId}`)
   }
 
   const handleCreateUpdateCaregiver = (userId: string) => {
-    navigate(`/caregivers/create-update/${userId}`)
+    navigate(`/users/caregivers/create-update/${userId}`)
   }
 
   return (

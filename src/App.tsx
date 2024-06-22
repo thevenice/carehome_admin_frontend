@@ -140,7 +140,7 @@ function App() {
           )}
         />
         <Route
-          path="/caregivers/create-update/:userId"
+          path="/users/caregivers/create-update/:userId"
           element={protectedRoute(
             <>
               <PageTitle title="Update CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
@@ -149,7 +149,7 @@ function App() {
           )}
         />
         <Route
-          path="/healthcareProffesional/create-update/:userId"
+          path="/users/healthcareProffesional/create-update/:userId"
           element={protectedRoute(
             <>
               <PageTitle title="Update HealthcareProffesional | TailAdmin - Tailwind CSS Admin Dashboard Template" />

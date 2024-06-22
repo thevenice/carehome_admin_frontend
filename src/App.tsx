@@ -26,6 +26,7 @@ import Buttons from './pages/UiElements/Buttons'
 import PlanDetails from './pages/PlanDetails'
 import CaregiverCreateUpdateForm from './pages/CreateUpdateCaregiverProfile'
 import HealthcareProfessionalUpdateForm from './pages/CreateUpdateHealthcareProfessionalProfile'
+import Documents from './pages/Documents'
 
 //
 // import PlanDetails from './pages/PlanDetails'
@@ -181,6 +182,15 @@ function App() {
             <>
               <PageTitle title="Users | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Users />
+            </>,
+          )}
+        />
+        <Route
+          path="/documents"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Documents | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <Documents />
             </>,
           )}
         />

@@ -8,7 +8,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import axiosInstance from '../../utils/axios';
 
-const UserTable = () => {
+const UsersTable = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [pagination, setPagination] = useState({
@@ -134,77 +134,62 @@ const UserTable = () => {
             className="px-2 py-1 border border-blue-300 rounded bg-blue-500 text-white"
           >
             <option value="all">Filter by Active</option>
-            <option value="active">active</option>
-            <option value="inactive">inactive</option>
-
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
           </select>
         </div>
       </div>
 
-      <div className="flex flex-col">
-        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
-          <div className="p-2.5 xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Email
-            </h5>
-          </div>
-          <div className="p-2.5 text-center xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Role
-            </h5>
-          </div>
-          <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Status
-            </h5>
-          </div>
-          <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Created At
-            </h5>
-          </div>
-          <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Actions
-            </h5>
-          </div>
-        </div>
-
-        {users.map((user:any, key) => (
-          <div
-            className={`grid grid-cols-3 sm:grid-cols-5 ${
-              key === users.length - 1
-                ? ''
-                : 'border-b border-stroke dark:border-strokedark'
-            }`}
-            key={user._id}
-          >
-            <div className="flex items-center gap-3 p-2.5 xl:p-5">
-              <p className="text-black dark:text-white">{user.email}</p>
-            </div>
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-black dark:text-white">{user.role}</p>
-            </div>
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-black dark:text-white">
-                {user.active ? 'Active' : 'Inactive'}
-              </p>
-            </div>
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-meta-5">
-                {new Date(user.createdAt).toLocaleDateString()}
-              </p>
-            </div>
-            <div className="flex items-center justify-center p-2.5 sm:p-5">
-              <button
-                onClick={() => handleViewUser(user._id)}
-                className="text-blue-500 hover:text-blue-600"
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-max table-auto">
+          <thead>
+            <tr className="bg-gray-2 dark:bg-meta-4">
+              <th className="py-4 px-4 font-medium text-black dark:text-white text-left">Email</th>
+              <th className="py-4 px-4 font-medium text-black dark:text-white text-center">Role</th>
+              <th className="py-4 px-4 font-medium text-black dark:text-white text-center">Status</th>
+              <th className="py-4 px-4 font-medium text-black dark:text-white text-center">Created At</th>
+              <th className="py-4 px-4 font-medium text-black dark:text-white text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user:any, key) => (
+              <tr
+                key={user._id}
+                className={`${
+                  key === users.length - 1
+                    ? ''
+                    : 'border-b border-stroke dark:border-strokedark'
+                }`}
               >
-                <FontAwesomeIcon icon={faArrowAltCircleRight} />
-              </button>
-            </div>
-          </div>
-        ))}
+                <td className="py-4 px-4">
+                  <p className="text-black dark:text-white text-sm truncate max-w-xs">{user.email}</p>
+                </td>
+                <td className="py-4 px-4 text-center">
+                  <p className="text-black dark:text-white text-sm">{user.role}</p>
+                </td>
+                <td className="py-4 px-4 text-center">
+                  <p className="text-black dark:text-white text-sm">
+                    {user.active ? 'Active' : 'Inactive'}
+                  </p>
+                </td>
+                <td className="py-4 px-4 text-center">
+                  <p className="text-meta-5 text-sm">
+                    {new Date(user.createdAt).toLocaleDateString()}
+                  </p>
+                </td>
+                <td className="py-4 px-4 text-center">
+                  <button
+                    onClick={() => handleViewUser(user._id)}
+                    className="text-blue-500 hover:text-blue-600"
+                  >
+                    <FontAwesomeIcon icon={faArrowAltCircleRight} />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
         <div className="flex justify-center mt-4 space-x-2">
           <button
@@ -259,8 +244,7 @@ const UserTable = () => {
           </button>
         </div>
       </div>
-    </div>
   );
 };
 
-export default UserTable;
+export default UsersTable;

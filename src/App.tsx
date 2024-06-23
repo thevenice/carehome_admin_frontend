@@ -27,6 +27,7 @@ import PlanDetails from './pages/PlanDetails'
 import CaregiverCreateUpdateForm from './pages/CreateUpdateCaregiverProfile'
 import HealthcareProfessionalUpdateForm from './pages/CreateUpdateHealthcareProfessionalProfile'
 import Documents from './pages/Documents'
+import DocumentProfile from './pages/DocumentProfile'
 
 //
 // import PlanDetails from './pages/PlanDetails'
@@ -128,6 +129,15 @@ function App() {
             <>
               <PageTitle title="Users Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <UserProfile />
+            </>,
+          )}
+        />
+        <Route
+          path="/documents/:document_id"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Users Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <DocumentProfile />
             </>,
           )}
         />

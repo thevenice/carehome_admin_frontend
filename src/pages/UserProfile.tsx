@@ -105,7 +105,6 @@ const UserProfile: React.FC = () => {
   }, [user_id_data])
 
   useEffect(() => {
-
     if (userData) {
       fetchUserProfileData()
     }
@@ -176,9 +175,7 @@ const UserProfile: React.FC = () => {
                 </h3>
                 <UserActions
                   isEnabled={isActive}
-                  onEditClick={() =>
-                    handleEditClick(user_id_data)
-                  }
+                  onEditClick={() => handleEditClick(user_id_data)}
                   onToggleClick={handleToggleClick}
                 />
                 <div className="mt-6.5">
@@ -190,31 +187,37 @@ const UserProfile: React.FC = () => {
                       icon={faUser}
                       title="User ID"
                       value={userData.data._id}
+                      RedirectComponent=""
                     />
                     <CardCareHomeFields
                       icon={faUser}
                       title="User Name"
                       value={userData.data.name}
+                      RedirectComponent=""
                     />
                     <CardCareHomeFields
                       icon={faEnvelope}
                       title="Email"
                       value={userData.data.email}
+                      RedirectComponent=""
                     />
                     <CardCareHomeFields
                       icon={faUser}
                       title="Role"
                       value={userData.data.role}
+                      RedirectComponent=""
                     />
                     <CardCareHomeFields
                       icon={faCalendarAlt}
                       title="Active"
                       value={userData.data.active ? 'True' : 'False'}
+                      RedirectComponent=""
                     />
                     <CardCareHomeFields
                       icon={faCalendarAlt}
                       title="Email Verification"
                       value={userData.data.email_verification}
+                      RedirectComponent=""
                     />
                     <CardCareHomeFields
                       icon={faCalendarAlt}
@@ -222,6 +225,7 @@ const UserProfile: React.FC = () => {
                       value={new Date(
                         userData.data.createdAt,
                       ).toLocaleDateString()}
+                      RedirectComponent=""
                     />
                     <CardCareHomeFields
                       icon={faCalendarAlt}
@@ -229,26 +233,33 @@ const UserProfile: React.FC = () => {
                       value={new Date(
                         userData.data.updatedAt,
                       ).toLocaleDateString()}
+                      RedirectComponent=""
                     />
                   </div>
-{                   userData && userData.data.role == "HEALTHCARE_PROFESSIONAL" && ( <div className='mt-3.5'>
-                    <h4 className="mb-3.5 font-medium text-black dark:text-white">
-                        PROFILE INFO:
-                      </h4>
-                      <div className="flex justify-center mt-6 mb-2">
-                        <button
-                          onClick={() =>
-                            handleCreateUpdateHealthcareProffesional(userData.data._id)
-                          }
-                          className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
-                        >
-                          <FontAwesomeIcon icon={faEdit} />
-                          Create/Update Healthcare Proffesional Profile
-                        </button>
+                  {userData &&
+                    userData.data.role == 'HEALTHCARE_PROFESSIONAL' && (
+                      <div className="mt-3.5">
+                        <h4 className="mb-3.5 font-medium text-black dark:text-white">
+                          PROFILE INFO:
+                        </h4>
+                        <div className="flex justify-center mt-6 mb-2">
+                          <button
+                            onClick={() =>
+                              handleCreateUpdateHealthcareProffesional(
+                                userData.data._id,
+                              )
+                            }
+                            className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
+                          >
+                            <FontAwesomeIcon icon={faEdit} />
+                            Create/Update Healthcare Proffesional Profile
+                          </button>
+                        </div>
                       </div>
-                    </div>)}
-{                   userData && userData.data.role == "CAREGIVER" && ( <div className='mt-3.5'>
-                    <h4 className="mb-3.5 font-medium text-black dark:text-white">
+                    )}
+                  {userData && userData.data.role == 'CAREGIVER' && (
+                    <div className="mt-3.5">
+                      <h4 className="mb-3.5 font-medium text-black dark:text-white">
                         PROFILE INFO:
                       </h4>
                       <div className="flex justify-center mt-6 mb-2">
@@ -262,45 +273,55 @@ const UserProfile: React.FC = () => {
                           Create/Update Caregiver Profile
                         </button>
                       </div>
-                    </div>)}
+                    </div>
+                  )}
                   {/* Additional Caregiver Profile Data */}
-                  { userData && userData.data.role == "CAREGIVER" && userProfileData ? (
+                  {userData &&
+                  userData.data.role == 'CAREGIVER' &&
+                  userProfileData ? (
                     <div className="mt-3.5">
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <CardCareHomeFields
                           icon={faPhone}
                           title="Contact Number"
                           value={userProfileData.data.contactNumber}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faHome}
                           title="Address"
                           value={userProfileData.data.address}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faBriefcase}
                           title="Specialization"
                           value={userProfileData.data.specialization}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faCertificate}
                           title="License Number"
                           value={userProfileData.data.licenseNumber}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faCalendarAlt}
                           title="Years of Experience"
                           value={userProfileData.data.yearsOfExperience}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faAward}
                           title="Qualifications"
                           value={userProfileData.data.qualifications.join(', ')}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faBriefcase}
                           title="Skills"
                           value={userProfileData.data.skills.join(', ')}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faClock}
@@ -308,6 +329,7 @@ const UserProfile: React.FC = () => {
                           value={userProfileData.data.preferredShifts.join(
                             ', ',
                           )}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faHospital}
@@ -315,6 +337,7 @@ const UserProfile: React.FC = () => {
                           value={userProfileData.data.workLocationPreferences.join(
                             ', ',
                           )}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faLanguage}
@@ -322,11 +345,13 @@ const UserProfile: React.FC = () => {
                           value={userProfileData.data.languagesSpoken.join(
                             ', ',
                           )}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faCertificate}
                           title="Certifications"
                           value={userProfileData.data.certifications.join(', ')}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faCalendarAlt}
@@ -334,6 +359,7 @@ const UserProfile: React.FC = () => {
                           value={userProfileData.data.availability.days.join(
                             ', ',
                           )}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faClock}
@@ -341,11 +367,13 @@ const UserProfile: React.FC = () => {
                           value={userProfileData.data.availability.timeSlots.join(
                             ', ',
                           )}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faUser}
                           title="Emergency Contact Name"
                           value={userProfileData.data.emergencyContact.name}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faUser}
@@ -353,6 +381,7 @@ const UserProfile: React.FC = () => {
                           value={
                             userProfileData.data.emergencyContact.relationship
                           }
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faPhone}
@@ -360,53 +389,66 @@ const UserProfile: React.FC = () => {
                           value={
                             userProfileData.data.emergencyContact.phoneNumber
                           }
+                          RedirectComponent=""
                         />
                       </div>
                     </div>
-                  ) : userProfileData == null ? '' :
-                   userProfileData != null && userData.data.role == "CAREGIVER" ? <div>Loading...</div> :
-                  (
+                  ) : userProfileData == null ? (
+                    ''
+                  ) : userProfileData != null &&
+                    userData.data.role == 'CAREGIVER' ? (
+                    <div>Loading...</div>
+                  ) : (
                     ''
                   )}
 
                   {/* Additional HEALTHCARE_PROFESSIONAL Profile Data */}
-                  { userData && userData.data.role == "HEALTHCARE_PROFESSIONAL" && userProfileData ? (
+                  {userData &&
+                  userData.data.role == 'HEALTHCARE_PROFESSIONAL' &&
+                  userProfileData ? (
                     <div className="mt-3.5">
                       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                         <CardCareHomeFields
                           icon={faPhone}
                           title="Contact Number"
                           value={userProfileData.data.contactNumber}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faHome}
                           title="Address"
                           value={userProfileData.data.address}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faBriefcase}
                           title="Specialization"
                           value={userProfileData.data.specialization}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faCertificate}
                           title="License Number"
                           value={userProfileData.data.licenseNumber}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faCalendarAlt}
                           title="Years of Experience"
                           value={userProfileData.data.yearsOfExperience}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faAward}
                           title="Qualifications"
                           value={userProfileData.data.qualifications.join(', ')}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faBriefcase}
                           title="Skills"
                           value={userProfileData.data.skills.join(', ')}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faClock}
@@ -414,6 +456,7 @@ const UserProfile: React.FC = () => {
                           value={userProfileData.data.preferredShifts.join(
                             ', ',
                           )}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faHospital}
@@ -421,6 +464,7 @@ const UserProfile: React.FC = () => {
                           value={userProfileData.data.workLocationPreferences.join(
                             ', ',
                           )}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faLanguage}
@@ -428,11 +472,13 @@ const UserProfile: React.FC = () => {
                           value={userProfileData.data.languagesSpoken.join(
                             ', ',
                           )}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faCertificate}
                           title="Certifications"
                           value={userProfileData.data.certifications.join(', ')}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faCalendarAlt}
@@ -440,6 +486,7 @@ const UserProfile: React.FC = () => {
                           value={userProfileData.data.availability.days.join(
                             ', ',
                           )}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faClock}
@@ -447,11 +494,13 @@ const UserProfile: React.FC = () => {
                           value={userProfileData.data.availability.timeSlots.join(
                             ', ',
                           )}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faUser}
                           title="Emergency Contact Name"
                           value={userProfileData.data.emergencyContact.name}
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faUser}
@@ -459,6 +508,7 @@ const UserProfile: React.FC = () => {
                           value={
                             userProfileData.data.emergencyContact.relationship
                           }
+                          RedirectComponent=""
                         />
                         <CardCareHomeFields
                           icon={faPhone}
@@ -466,12 +516,16 @@ const UserProfile: React.FC = () => {
                           value={
                             userProfileData.data.emergencyContact.phoneNumber
                           }
+                          RedirectComponent=""
                         />
                       </div>
                     </div>
-                  ) : userProfileData == null ? '' :
-                   userProfileData != null && userData.data.role == "HEALTHCARE_PROFESSIONAL" ? <div>Loading...</div> :
-                  (
+                  ) : userProfileData == null ? (
+                    ''
+                  ) : userProfileData != null &&
+                    userData.data.role == 'HEALTHCARE_PROFESSIONAL' ? (
+                    <div>Loading...</div>
+                  ) : (
                     ''
                   )}
                 </div>

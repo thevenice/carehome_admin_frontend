@@ -167,7 +167,7 @@ const DocumentsTable = () => {
             <p className="text-meta-5 text-sm">{document.uploadedAt}</p>
           </td>
           <td className="py-4 px-4 text-center">
-            <p className="text-black dark:text-white text-sm truncate max-w-xs">{document.createdBy}</p>
+            <p className="text-black dark:text-white text-sm truncate max-w-xs">{document.createdBy.name}</p>
           </td>
           <td className="py-4 px-4 text-center">
             <p className="text-black dark:text-white text-sm truncate max-w-xs">{document.link}</p>

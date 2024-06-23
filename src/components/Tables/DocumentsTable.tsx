@@ -17,19 +17,17 @@ const DocumentsTable = () => {
     totalPages: 1,
     currentPage: 1,
   });
-  const [selectedType, setSelectedType] = useState(''); // New state for selected document type filter
-  const [activeParam, setActiveParam] = useState('all'); // New state for selected status filter
+   const [searchField, setSearchField] = useState('associatedUsers.email');
+  const [searchText, setSearchText] = useState('');
 
   const fetchDocuments = async () => {
     try {
       const params_to_send:any = {
         page: pagination.currentPage,
         limit: pagination.limit,
-        type: selectedType, // Pass selected type as a query parameter
+        search_field: searchField,
+        search_text: searchText,
       };
-      if (activeParam !== 'all') {
-        params_to_send.active = activeParam === 'active' ? true : false;
-      }
       const response = await axiosInstance.get('/admin/documents', {
         params: params_to_send,
       });
@@ -51,7 +49,7 @@ const DocumentsTable = () => {
 
   useEffect(() => {
     fetchDocuments();
-  }, [pagination.currentPage, pagination.limit, selectedType, activeParam]);
+  }, [pagination.currentPage, pagination.limit,  searchField, searchText]);
 
   const handlePreviousPage = () => {
     setPagination((prev) => ({
@@ -84,12 +82,12 @@ const DocumentsTable = () => {
     navigate(`/documents/${documentId}`);
   };
 
-  const handleTypeChange = (event:any) => {
-    setSelectedType(event.target.value);
+  const handleSearchFieldChange = (event:any) => {
+    setSearchField(event.target.value);
   };
 
-  const handleActiveParamChange = (event:any) => {
-    setActiveParam(event.target.value);
+  const handleSearchTextChange = (event:any) => {
+    setSearchText(event.target.value);
   };
 
   return (
@@ -116,26 +114,22 @@ const DocumentsTable = () => {
             className="w-20 px-2 py-1 border border-gray-300 rounded"
             placeholder="Limit"
           />
+
           <select
-            value={selectedType}
-            onChange={handleTypeChange}
+            value={searchField}
+            onChange={handleSearchFieldChange}
             className="px-2 py-1 border border-blue-300 rounded bg-blue-500 text-white"
           >
-            <option value="">Filter by Type</option>
-            <option value="PDF">PDF</option>
-            <option value="IMAGE">Image</option>
-            <option value="TEXT">Text</option>
-            {/* Add more document types as needed */}
+            <option value="associatedUsers.email">Search by Email</option>
+            {/* Add more search fields as needed */}
           </select>
-          <select
-            value={activeParam}
-            onChange={handleActiveParamChange}
-            className="px-2 py-1 border border-blue-300 rounded bg-blue-500 text-white"
-          >
-            <option value="all">Filter by Active</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
+          <input
+            type="text"
+            value={searchText}
+            onChange={handleSearchTextChange}
+            className="px-2 py-1 border border-gray-300 rounded"
+            placeholder="Search text"
+          />
         </div>
       </div>
 
@@ -183,10 +177,62 @@ const DocumentsTable = () => {
         </tr>
       ))}
     </tbody>
-  </table>
-</div>
+    </table>
     </div>
-  );
-};
+      <div className="flex justify-center mt-4 space-x-2">
+        <button
+          onClick={handlePreviousPage}
+          disabled={pagination.currentPage === 1}
+          className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600 disabled:bg-gray-300"
+        >
+          Previous
+        </button>
+
+        {pagination.currentPage > 1 && (
+          <button
+            onClick={() =>
+              setPagination((prev) => ({
+                ...prev,
+                currentPage: pagination.currentPage - 1,
+              }))
+            }
+            className="px-4 py-2 text-sm font-medium text-black bg-white border border-stroke rounded hover:bg-gray-100"
+          >
+            {pagination.currentPage - 1}
+          </button>
+        )}
+
+        <button
+          disabled
+          className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded"
+        >
+          {pagination.currentPage}
+        </button>
+
+        {pagination.currentPage < pagination.totalPages && (
+            <button
+              onClick={() =>
+                setPagination((prev) => ({
+                  ...prev,
+                  currentPage: pagination.currentPage + 1,
+                }))
+              }
+              className="px-4 py-2 text-sm font-medium text-black bg-white border border-stroke rounded hover:bg-gray-100"
+            >
+              {pagination.currentPage + 1}
+            </button>
+          )}
+
+          <button
+            onClick={handleNextPage}
+            disabled={pagination.currentPage === pagination.totalPages}
+            className="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded hover:bg-blue-600 disabled:bg-gray-300"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    );
+  };
 
 export default DocumentsTable;

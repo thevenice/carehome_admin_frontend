@@ -19,6 +19,8 @@ const UsersTable = () => {
   });
   const [selectedRole, setSelectedRole] = useState(''); // New state for selected role filter
   const [activeParam, setActiveParam] = useState("all"); // New state for selected role filter
+  const [searchField, setSearchField] = useState('email');
+  const [searchText, setSearchText] = useState('');
 
   const fetchUsers = async () => {
     try {
@@ -26,6 +28,8 @@ const UsersTable = () => {
         page: pagination.currentPage,
         limit: pagination.limit,
         role: selectedRole, // Pass selected role as a query parameter
+        search_field: searchField,
+        search_text: searchText,
       }
       if (activeParam !== "all") {
         params_to_send.active = activeParam === "active" ? true : false
@@ -51,7 +55,7 @@ const UsersTable = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [pagination.currentPage, pagination.limit, selectedRole, activeParam]); // Add selectedRole to dependency array
+  }, [pagination.currentPage, pagination.limit, selectedRole, activeParam, searchField, searchText]); // Add selectedRole to dependency array
 
   const handlePreviousPage = () => {
     setPagination((prev) => ({
@@ -90,6 +94,14 @@ const UsersTable = () => {
 
   const handleActiveParamChange = (event:any) => {
     setActiveParam(event.target.value);
+  };
+
+  const handleSearchFieldChange = (event:any) => {
+    setSearchField(event.target.value);
+  };
+
+  const handleSearchTextChange = (event:any) => {
+    setSearchText(event.target.value);
   };
 
   return (
@@ -137,6 +149,22 @@ const UsersTable = () => {
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
           </select>
+          <select
+            value={searchField}
+            onChange={handleSearchFieldChange}
+            className="px-2 py-1 border border-blue-300 rounded bg-blue-500 text-white"
+          >
+            <option value="email">Search by Email</option>
+            <option value="name">Search by Name</option>
+            {/* Add more search fields as needed */}
+          </select>
+          <input
+            type="text"
+            value={searchText}
+            onChange={handleSearchTextChange}
+            className="px-2 py-1 border border-gray-300 rounded"
+            placeholder="Search text"
+          />
         </div>
       </div>
 
@@ -145,6 +173,7 @@ const UsersTable = () => {
           <thead>
             <tr className="bg-gray-2 dark:bg-meta-4">
               <th className="py-4 px-4 font-medium text-black dark:text-white text-left">Email</th>
+              <th className="py-4 px-4 font-medium text-black dark:text-white text-left">Name</th>
               <th className="py-4 px-4 font-medium text-black dark:text-white text-center">Role</th>
               <th className="py-4 px-4 font-medium text-black dark:text-white text-center">Status</th>
               <th className="py-4 px-4 font-medium text-black dark:text-white text-center">Created At</th>
@@ -163,6 +192,9 @@ const UsersTable = () => {
               >
                 <td className="py-4 px-4">
                   <p className="text-black dark:text-white text-sm truncate max-w-xs">{user.email}</p>
+                </td>
+                <td className="py-4 px-4">
+                  <p className="text-black dark:text-white text-sm truncate max-w-xs">{user.name}</p>
                 </td>
                 <td className="py-4 px-4 text-center">
                   <p className="text-black dark:text-white text-sm">{user.role}</p>

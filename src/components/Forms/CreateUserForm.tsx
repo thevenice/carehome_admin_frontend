@@ -78,12 +78,17 @@ const CreateUserForm = () => {
     }
 
     try {
-      const data_to_send = new FormData()
+      const data_to_send:any = new FormData()
       for (const key in formData) {
-        if (formData.hasOwnProperty(key)) {
+        console.log(key)
+        if (key === 'profile_picture') {
+          data_to_send.append("profile_picture_image", formData[key as keyof FormData])
+        }
+        else if (formData.hasOwnProperty(key)) {
           data_to_send.append(key, formData[key as keyof FormData])
         }
       }
+      console.log("data_to_send: ", data_to_send)
       const response = await axiosInstance.post(`/admin/user`, data_to_send, {
         headers: {
           'Content-Type': 'multipart/form-data',

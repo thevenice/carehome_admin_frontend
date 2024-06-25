@@ -110,7 +110,6 @@ const CreateDocumentForm = () => {
       if (formData.file) {
         dataToSend.append('file', formData.file);
       }
-      console.log("formData.associatedUsers: ", formData.associatedUsers)
       formData.associatedUsers.forEach((user, index) => {
         dataToSend.append(`associatedUsers[${index}]`, user._id);
       });
@@ -210,7 +209,7 @@ const CreateDocumentForm = () => {
                 />
                 {searchResults.length > 0 && (
                   <div className="mt-2 max-h-40 overflow-y-auto border border-stroke dark:border-strokedark rounded-md">
-                    {searchResults.map((user) => (
+                    {searchResults.map((user:any) => (
                       <div
                         key={user.id}
                         className="px-4 py-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-meta-4"

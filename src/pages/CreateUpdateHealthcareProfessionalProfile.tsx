@@ -131,8 +131,8 @@ const handleArrayChange = (
 // nested handles
 const handleNestedArrayChange = (e: { target: { value: any } }, parentKey: string | number, key: string | number, index: string | number) => {
   const { value } = e.target;
-  setFormData((prevState) => {
-    const updatedArray = [...prevState[parentKey][key]];
+  setFormData((prevState:any) => {
+    const updatedArray:any = [...prevState[parentKey][key]];
     updatedArray[index] = value;
     return {
       ...prevState,
@@ -145,7 +145,7 @@ const handleNestedArrayChange = (e: { target: { value: any } }, parentKey: strin
 };
 
 const handleNestedAddArrayField = (parentKey: string | number, key: string | number) => {
-  setFormData((prevState) => ({
+  setFormData((prevState:any) => ({
     ...prevState,
     [parentKey]: {
       ...prevState[parentKey],
@@ -155,7 +155,7 @@ const handleNestedAddArrayField = (parentKey: string | number, key: string | num
 };
 
 const handleNestedRemoveArrayField = (parentKey: string | number, key: string | number, index: any) => {
-  setFormData((prevState) => {
+  setFormData((prevState:any) => {
     const updatedArray = prevState[parentKey][key].filter((_: any, i: any) => i !== index);
     return {
       ...prevState,

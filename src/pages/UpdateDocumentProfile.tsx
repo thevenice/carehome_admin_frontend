@@ -104,7 +104,7 @@ const UpdateDocumentProfile = () => {
       const dataToSend = new FormData()
       for (const key in formData) {
         if (formData.hasOwnProperty(key)) {
-          const value = formData[key as keyof typeof formData]
+          const value:any = formData[key as keyof typeof formData]
           if (key === 'file' && formData.file) {
             dataToSend.append(key, formData.file)
           }

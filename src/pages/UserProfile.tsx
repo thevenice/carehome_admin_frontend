@@ -15,6 +15,25 @@ import {
   faCertificate,
   faHospital,
   faClock,
+  faAllergies,
+  faDoorOpen,
+  faHeartbeat,
+  faIdCard,
+  faListUl,
+  faMoon,
+  faRunning,
+  faStethoscope,
+  faSun,
+  faUserMd,
+  faUserNurse,
+  faUserShield,
+  faUtensils,
+  faWalking,
+  faWheelchair,
+  faAddressBook,
+  faFileAlt,
+  faFolder,
+  faPills,
 } from '@fortawesome/free-solid-svg-icons'
 import axiosInstance from '../utils/axios'
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
@@ -80,6 +99,7 @@ const UserProfile: React.FC = () => {
           break
         case 'RESIDENT':
           // Define URL for RESIDENT (if applicable)
+          url = `/admin/residents?userId=${user_id_data}`
           break
         case 'HEALTHCARE_PROFESSIONAL':
           url = `/admin/healthcare-professionals?userId=${user_id_data}`
@@ -524,6 +544,169 @@ const UserProfile: React.FC = () => {
                     ''
                   ) : userProfileData != null &&
                     userData.data.role == 'HEALTHCARE_PROFESSIONAL' ? (
+                    <div>Loading...</div>
+                  ) : (
+                    ''
+                  )}
+                  {/* Resident Profile Data */}
+                  {userData &&
+                  userData.data.role === 'RESIDENT' &&
+                  userProfileData ? (
+                    <div className="mt-3.5">
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <CardCareHomeFields
+                          icon={faCalendarAlt}
+                          title="Admission Date"
+                          value={new Date(
+                            userProfileData.data.admissionDate,
+                          ).toLocaleDateString()}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faDoorOpen}
+                          title="Room Number"
+                          value={userProfileData.data.roomNumber}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faUserNurse}
+                          title="Care Level"
+                          value={userProfileData.data.careLevel}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faStethoscope}
+                          title="Primary Diagnosis"
+                          value={userProfileData.data.primaryDiagnosis}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faListUl}
+                          title="Secondary Diagnoses"
+                          value={userProfileData.data.secondaryDiagnoses.join(
+                            ', ',
+                          )}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faAllergies}
+                          title="Allergies"
+                          value={userProfileData.data.allergies.join(', ')}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faUtensils}
+                          title="Dietary Restrictions"
+                          value={userProfileData.data.dietaryRestrictions.join(
+                            ', ',
+                          )}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faPills}
+                          title="Medications"
+                          value={userProfileData.data.medications
+                            .map((med: any) => `${med.name} (${med.dosage})`)
+                            .join(', ')}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faWalking}
+                          title="Mobility Status"
+                          value={userProfileData.data.mobilityStatus}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faWheelchair}
+                          title="Assistive Devices"
+                          value={userProfileData.data.assistiveDevices.join(
+                            ', ',
+                          )}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faHeartbeat}
+                          title="DNR Status"
+                          value={userProfileData.data.dnrStatus ? 'Yes' : 'No'}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faUserMd}
+                          title="Primary Physician"
+                          value={`${userProfileData.data.primaryPhysician.name} (${userProfileData.data.primaryPhysician.contactNumber})`}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faIdCard}
+                          title="Insurance"
+                          value={`${userProfileData.data.insuranceInfo.provider} (${userProfileData.data.insuranceInfo.policyNumber})`}
+                          RedirectComponent=""
+                        />
+                        {userProfileData.data.legalGuardian && (
+                          <CardCareHomeFields
+                            icon={faUserShield}
+                            title="Legal Guardian"
+                            value={`${userProfileData.data.legalGuardian.name} (${userProfileData.data.legalGuardian.relationship})`}
+                            RedirectComponent=""
+                          />
+                        )}
+                        <CardCareHomeFields
+                          icon={faSun}
+                          title="Wake Up Time"
+                          value={userProfileData.data.preferences.wakeUpTime}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faMoon}
+                          title="Bed Time"
+                          value={userProfileData.data.preferences.bedTime}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faUtensils}
+                          title="Meal Preferences"
+                          value={userProfileData.data.preferences.mealPreferences.join(
+                            ', ',
+                          )}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faRunning}
+                          title="Preferred Activities"
+                          value={userProfileData.data.preferences.activities.join(
+                            ', ',
+                          )}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faAddressBook}
+                          title="Emergency Contacts"
+                          value={userProfileData.data.emergencyContacts
+                            .map(
+                              (contact: any) =>
+                                `${contact.name} (${contact.relationship})`,
+                            )
+                            .join(', ')}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faFileAlt}
+                          title="Care Notes"
+                          value={userProfileData.data.careNotes.map((note:any) => `${note.note} - By(${note.author}) - At(${note.date})`)}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faFolder}
+                          title="Documents"
+                          value={`${userProfileData.data.documents}`}
+                          RedirectComponent=""
+                        />
+                      </div>
+                    </div>
+                  ) : userProfileData === null ? (
+                    ''
+                  ) : userProfileData != null &&
+                    userData.data.role === 'RESIDENT' ? (
                     <div>Loading...</div>
                   ) : (
                     ''

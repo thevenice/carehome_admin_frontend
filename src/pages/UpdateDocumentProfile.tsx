@@ -21,6 +21,28 @@ const UpdateDocumentProfile = () => {
   const [searchResults, setSearchResults] = useState<{ _id: string; name: string }[]>([])
 
   useEffect(() => {
+    if (searchQuery) {
+      const fetchUsers = async () => {
+        try {
+          const response = await axiosInstance.get(`/admin/user`, {
+            params: {
+              search_field: 'name', // Adjust based on backend implementation
+              search_text: searchQuery,
+            },
+          });
+          if (response.data.success) {
+            setSearchResults(response.data.data);
+          }
+        } catch (error) {
+          console.error('Error fetching users:', error);
+        }
+      };
+      fetchUsers();
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchQuery]);
+  useEffect(() => {
     // Fetch document details and set initial form data
     axiosInstance
       .get(`/admin/documents?documentId=${documentId}`)
@@ -73,15 +95,7 @@ const UpdateDocumentProfile = () => {
     }))
   }
 
-  const handleSearch = async () => {
-    try {
-      const response = await axiosInstance.get(`/admin/users?search=${searchQuery}`)
-      setSearchResults(response.data.data)
-    } catch (error) {
-      console.error('Error searching users:', error)
-      setSearchResults([])
-    }
-  }
+
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -96,7 +110,9 @@ const UpdateDocumentProfile = () => {
           }
           if (key !== 'file' && value !== null) {
             if (key === 'associatedUsers') {
-              dataToSend.append(key, JSON.stringify(value))
+              formData.associatedUsers.forEach((user, index) => {
+                dataToSend.append(`associatedUsers[${index}]`, user._id);
+              });
             } else {
               dataToSend.append(key, value)
             }

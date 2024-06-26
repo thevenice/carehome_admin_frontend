@@ -113,18 +113,28 @@ const CreateUpdateResidentProfile: React.FC = () => {
       console.error('Error fetching resident data:', error);
     }
   };
-// nested handles
-const handleNestedArrayChange = (e: { target: { value: any } }, parentKey: string | number, key: string | number, index: string | number) => {
+  const handleNestedArrayChange = (
+    e: { target: { value: any } }, 
+    parentKey: string, 
+    index: number, 
+    field: string
+  ) => {
     const { value } = e.target;
-    setFormData((prevState:any) => {
-      const updatedArray:any = prevState[parentKey][key] ?[...prevState[parentKey][key]] : [];
-      updatedArray[index] = value;
+    setFormData((prevState: any) => {
+      // Ensure the parent key exists and is an array
+      const updatedParent = Array.isArray(prevState[parentKey]) 
+        ? [...prevState[parentKey]] 
+        : [];
+      
+      // Ensure the item at the index exists and is an object
+      updatedParent[index] = {
+        ...updatedParent[index],
+        [field]: value
+      };
+  
       return {
         ...prevState,
-        [parentKey]: {
-          ...prevState[parentKey],
-          [key]: updatedArray,
-        },
+        [parentKey]: updatedParent
       };
     });
   };
@@ -471,8 +481,8 @@ const handleNestedArrayChange = (e: { target: { value: any } }, parentKey: strin
       <input
         type="text"
         placeholder="Contact Number"
-        value={contact.contactNumber}
-        onChange={(e) => handleNestedArrayChange(e, 'emergencyContacts', index, 'contactNumber')}
+        value={contact.phoneNumber}
+        onChange={(e) => handleNestedArrayChange(e, 'emergencyContacts', index, 'phoneNumber')}
         className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary mb-2"
       />
       <button

@@ -30,6 +30,7 @@ import Documents from './pages/Documents'
 import DocumentProfile from './pages/DocumentProfile'
 import CreateDocumentProfile from './pages/CreateDocumentProfile'
 import UpdateDocumentProfile from './pages/UpdateDocumentProfile'
+import CreateUpdateResidentProfile from './pages/createUpdateResidentProfile'
 
 //
 // import PlanDetails from './pages/PlanDetails'
@@ -167,6 +168,15 @@ function App() {
             <>
               <PageTitle title="Update HealthcareProffesional | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <HealthcareProfessionalUpdateForm />
+            </>,
+          )}
+        />
+        <Route
+          path="/users/residents/create-update/:userId"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Update Residents | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <CreateUpdateResidentProfile />
             </>,
           )}
         />

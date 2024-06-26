@@ -172,6 +172,9 @@ const UserProfile: React.FC = () => {
   const handleCreateUpdateCaregiver = (userId: string) => {
     navigate(`/users/caregivers/create-update/${userId}`)
   }
+  const handleCreateUpdateResident = (userId: string) => {
+    navigate(`/users/residents/create-update/${userId}`)
+  }
 
   return (
     <>
@@ -305,7 +308,7 @@ const UserProfile: React.FC = () => {
                         <div className="flex justify-center mt-6 mb-2">
                           <button
                             onClick={() =>
-                              handleCreateUpdateHealthcareProffesional(
+                              handleCreateUpdateResident(
                                 userData.data._id,
                               )
                             }

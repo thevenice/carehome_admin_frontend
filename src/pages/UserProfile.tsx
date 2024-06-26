@@ -256,6 +256,7 @@ const UserProfile: React.FC = () => {
                       RedirectComponent=""
                     />
                   </div>
+                    {/* Additional Profile Info tag and Edit Button */}
                   {userData &&
                     userData.data.role == 'HEALTHCARE_PROFESSIONAL' && (
                       <div className="mt-3.5">
@@ -295,6 +296,27 @@ const UserProfile: React.FC = () => {
                       </div>
                     </div>
                   )}
+                    {userData &&
+                    userData.data.role == 'RESIDENT' && (
+                      <div className="mt-3.5">
+                        <h4 className="mb-3.5 font-medium text-black dark:text-white">
+                          PROFILE INFO:
+                        </h4>
+                        <div className="flex justify-center mt-6 mb-2">
+                          <button
+                            onClick={() =>
+                              handleCreateUpdateHealthcareProffesional(
+                                userData.data._id,
+                              )
+                            }
+                            className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
+                          >
+                            <FontAwesomeIcon icon={faEdit} />
+                            Create/Update Resident  Profile
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   {/* Additional Caregiver Profile Data */}
                   {userData &&
                   userData.data.role == 'CAREGIVER' &&

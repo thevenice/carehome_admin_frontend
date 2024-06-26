@@ -13,7 +13,7 @@ const CardCareHomeFields: React.FC<CardCareHomeFieldsProps> = ({
   icon,
   title,
   value,
-  RedirectComponent = "",
+  RedirectComponent = '',
 }) => (
   <div className="rounded-lg border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
     <div className="flex items-center">
@@ -27,11 +27,7 @@ const CardCareHomeFields: React.FC<CardCareHomeFieldsProps> = ({
     </div>
 
     <div className="mt-4">{value}</div>
-    {
-      RedirectComponent ?? (
-        <RedirectComponent/>
-      )
-    }
+    {RedirectComponent ?? <RedirectComponent />}
   </div>
 )
 

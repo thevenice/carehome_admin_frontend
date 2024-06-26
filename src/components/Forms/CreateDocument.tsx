@@ -1,29 +1,39 @@
-import React, { useState, useEffect, ChangeEvent, FormEvent, useRef } from 'react';
-import axiosInstance from '../../utils/axios';
+import React, {
+  useState,
+  useEffect,
+  ChangeEvent,
+  FormEvent,
+  useRef,
+} from 'react'
+import axiosInstance from '../../utils/axios'
 
 const CreateDocumentForm = () => {
   type FormData = {
-    title: string;
-    file: File | null;
-    associatedUsers: { _id: string; name: string }[];
-  };
+    title: string
+    file: File | null
+    associatedUsers: { _id: string; name: string }[]
+  }
 
   type FormErrors = {
-    title?: string;
-    file?: string;
-  };
+    title?: string
+    file?: string
+  }
 
   const [formData, setFormData] = useState<FormData>({
     title: '',
     file: null,
     associatedUsers: [],
-  });
+  })
 
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [previewFile, setPreviewFile] = useState<string | ArrayBuffer | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchResults, setSearchResults] = useState<{ id: string; name: string }[]>([]);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [errors, setErrors] = useState<FormErrors>({})
+  const [previewFile, setPreviewFile] = useState<string | ArrayBuffer | null>(
+    null,
+  )
+  const [searchQuery, setSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState<
+    { id: string; name: string }[]
+  >([])
+  const fileInputRef = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
     if (searchQuery) {
@@ -34,122 +44,135 @@ const CreateDocumentForm = () => {
               search_field: 'name', // Adjust based on backend implementation
               search_text: searchQuery,
             },
-          });
+          })
           if (response.data.success) {
-            setSearchResults(response.data.data);
+            setSearchResults(response.data.data)
           }
         } catch (error) {
-          console.error('Error fetching users:', error);
+          console.error('Error fetching users:', error)
         }
-      };
-      fetchUsers();
+      }
+      fetchUsers()
     } else {
-      setSearchResults([]);
+      setSearchResults([])
     }
-  }, [searchQuery]);
+  }, [searchQuery])
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files?.[0]
     if (file) {
       setFormData((prevState) => ({
         ...prevState,
         file,
-      }));
+      }))
 
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onloadend = () => {
-        setPreviewFile(reader.result);
-      };
-      reader.readAsDataURL(file);
+        setPreviewFile(reader.result)
+      }
+      reader.readAsDataURL(file)
     }
-  };
+  }
 
   const handleAddUser = (user: { _id: string; name: string }) => {
     setFormData((prevState) => ({
       ...prevState,
       associatedUsers: [...prevState.associatedUsers, user],
-    }));
-  };
+    }))
+  }
 
   const handleRemoveUser = (userId: string) => {
     setFormData((prevState) => ({
       ...prevState,
-      associatedUsers: prevState.associatedUsers.filter((user) => user._id !== userId),
-    }));
-  };
+      associatedUsers: prevState.associatedUsers.filter(
+        (user) => user._id !== userId,
+      ),
+    }))
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    let validationErrors: FormErrors = {};
+    let validationErrors: FormErrors = {}
 
     if (!formData.title) {
-      validationErrors.title = 'Title is required';
+      validationErrors.title = 'Title is required'
     }
     if (!formData.file) {
-      validationErrors.file = 'File is required';
+      validationErrors.file = 'File is required'
     }
 
-    setErrors(validationErrors);
+    setErrors(validationErrors)
 
     if (Object.keys(validationErrors).length > 0) {
-      return;
+      return
     }
 
     try {
-      const dataToSend = new FormData();
-      dataToSend.append('title', formData.title);
+      const dataToSend = new FormData()
+      dataToSend.append('title', formData.title)
       if (formData.file) {
-        dataToSend.append('file', formData.file);
+        dataToSend.append('file', formData.file)
       }
       formData.associatedUsers.forEach((user, index) => {
-        dataToSend.append(`associatedUsers[${index}]`, user._id);
-      });
+        dataToSend.append(`associatedUsers[${index}]`, user._id)
+      })
 
-      const response = await axiosInstance.post(`/admin/documents`, dataToSend, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
+      const response = await axiosInstance.post(
+        `/admin/documents`,
+        dataToSend,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         },
-      });
-      alert('Document created successfully');
-      console.log('Document created:', response.data);
+      )
+      alert('Document created successfully')
+      console.log('Document created:', response.data)
 
       setFormData({
         title: '',
         file: null,
         associatedUsers: [],
-      });
-      setErrors({});
-      setPreviewFile(null);
+      })
+      setErrors({})
+      setPreviewFile(null)
 
       if (fileInputRef.current) {
-        fileInputRef.current.value = '';
+        fileInputRef.current.value = ''
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Failed to create document');
+      console.error('Error:', error)
+      alert('Failed to create document')
     }
-  };
+  }
 
   return (
     <div className="grid">
       <div className="flex flex-col gap-9">
         <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-            <h3 className="font-medium text-black dark:text-white">Create Document</h3>
+            <h3 className="font-medium text-black dark:text-white">
+              Create Document
+            </h3>
           </div>
           <div className="flex flex-col gap-5.5 p-6.5">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="title"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Title
                 </label>
                 <input
@@ -168,7 +191,10 @@ const CreateDocumentForm = () => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="file" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="file"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Upload File
                 </label>
                 <div className="mt-2 flex items-center">
@@ -197,7 +223,10 @@ const CreateDocumentForm = () => {
               </div>
 
               <div className="mb-4">
-                <label htmlFor="associatedUsers" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="associatedUsers"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Associated Users
                 </label>
                 <input
@@ -209,7 +238,7 @@ const CreateDocumentForm = () => {
                 />
                 {searchResults.length > 0 && (
                   <div className="mt-2 max-h-40 overflow-y-auto border border-stroke dark:border-strokedark rounded-md">
-                    {searchResults.map((user:any) => (
+                    {searchResults.map((user: any) => (
                       <div
                         key={user.id}
                         className="px-4 py-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-meta-4"
@@ -253,7 +282,7 @@ const CreateDocumentForm = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CreateDocumentForm;
+export default CreateDocumentForm

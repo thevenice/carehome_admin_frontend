@@ -18,7 +18,9 @@ const UpdateDocumentProfile = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({})
   const [previewFile, setPreviewFile] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState<string>('')
-  const [searchResults, setSearchResults] = useState<{ _id: string; name: string }[]>([])
+  const [searchResults, setSearchResults] = useState<
+    { _id: string; name: string }[]
+  >([])
 
   useEffect(() => {
     if (searchQuery) {
@@ -29,26 +31,26 @@ const UpdateDocumentProfile = () => {
               search_field: 'name', // Adjust based on backend implementation
               search_text: searchQuery,
             },
-          });
+          })
           if (response.data.success) {
-            setSearchResults(response.data.data);
+            setSearchResults(response.data.data)
           }
         } catch (error) {
-          console.error('Error fetching users:', error);
+          console.error('Error fetching users:', error)
         }
-      };
-      fetchUsers();
+      }
+      fetchUsers()
     } else {
-      setSearchResults([]);
+      setSearchResults([])
     }
-  }, [searchQuery]);
+  }, [searchQuery])
   useEffect(() => {
     // Fetch document details and set initial form data
     axiosInstance
       .get(`/admin/documents?documentId=${documentId}`)
       .then((response) => {
         setFormData(response.data.data)
-        
+
         setLoading(false)
       })
       .catch((error) => {
@@ -91,11 +93,11 @@ const UpdateDocumentProfile = () => {
   const handleRemoveUser = (userId: string) => {
     setFormData((prevState) => ({
       ...prevState,
-      associatedUsers: prevState.associatedUsers.filter((user) => user._id !== userId),
+      associatedUsers: prevState.associatedUsers.filter(
+        (user) => user._id !== userId,
+      ),
     }))
   }
-
-
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -104,15 +106,15 @@ const UpdateDocumentProfile = () => {
       const dataToSend = new FormData()
       for (const key in formData) {
         if (formData.hasOwnProperty(key)) {
-          const value:any = formData[key as keyof typeof formData]
+          const value: any = formData[key as keyof typeof formData]
           if (key === 'file' && formData.file) {
             dataToSend.append(key, formData.file)
           }
           if (key !== 'file' && value !== null) {
             if (key === 'associatedUsers') {
               formData.associatedUsers.forEach((user, index) => {
-                dataToSend.append(`associatedUsers[${index}]`, user._id);
-              });
+                dataToSend.append(`associatedUsers[${index}]`, user._id)
+              })
             } else {
               dataToSend.append(key, value)
             }
@@ -189,28 +191,32 @@ const UpdateDocumentProfile = () => {
                       onChange={handleFileChange}
                     />
                   </div>
-                  {previewFile  && (
+                  {previewFile && (
                     <>
-                    <div className="mt-2">
-                          {previewFile && <iframe src={previewFile} width="600" height="400" />}
-                          {!previewFile && <p>No preview available.</p>}
-                    </div>
-                    <div className="mt-2">
-                    <a
-                      href={previewFile}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-500"
-                    >
-                      Preview file full screen
-                    </a>
-                  </div>
-                  </>
+                      <div className="mt-2">
+                        {previewFile && (
+                          <iframe src={previewFile} width="600" height="400" />
+                        )}
+                        {!previewFile && <p>No preview available.</p>}
+                      </div>
+                      <div className="mt-2">
+                        <a
+                          href={previewFile}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500"
+                        >
+                          Preview file full screen
+                        </a>
+                      </div>
+                    </>
                   )}
                   {!previewFile && formData.link && (
                     <div className="mt-2">
-                          {formData.link && <iframe src={formData.link} width="600" height="400" />}
-                          {!formData.link && <p>No preview available.</p>}
+                      {formData.link && (
+                        <iframe src={formData.link} width="600" height="400" />
+                      )}
+                      {!formData.link && <p>No preview available.</p>}
                     </div>
                   )}
                 </div>
@@ -244,10 +250,7 @@ const UpdateDocumentProfile = () => {
                   )}
                   <div className="mt-2">
                     {formData.associatedUsers.map((user) => (
-                      <div
-                        key={user._id}
-                        className="flex items-center mt-2"
-                      >
+                      <div key={user._id} className="flex items-center mt-2">
                         <input
                           type="text"
                           name={`associatedUsers[${user._id}]`}

@@ -82,7 +82,10 @@ const UpdateUserProfileForm = () => {
             'email_verification',
             'profile_picture_image',
           ]
-          if (key === 'profile_picture_image' && formData.profile_picture_image) {
+          if (
+            key === 'profile_picture_image' &&
+            formData.profile_picture_image
+          ) {
             data_to_send.append(key, formData.profile_picture_image)
           }
           if (

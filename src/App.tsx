@@ -245,19 +245,19 @@ function App() {
         />
         {/* Plans Routes start */}
         <Route
-        path="/plans/:plan_id"
-        element={
-          token ? ( // Only render CareHomeProfile if signed in
-            <>
-              {console.log('token', token)}
-              <PageTitle title="CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <PlanDetails />
-            </>
-          ) : (
-            <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-          )
-        }
-      />
+          path="/plans/:plan_id"
+          element={
+            token ? ( // Only render CareHomeProfile if signed in
+              <>
+                {console.log('token', token)}
+                <PageTitle title="CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+                <PlanDetails />
+              </>
+            ) : (
+              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
+            )
+          }
+        />
         {/* Public routes (accessible without login) */}
         <Route path="/forms/form-elements" element={<FormElements />} />
         <Route path="/forms/form-layout" element={<FormLayout />} />
@@ -265,7 +265,7 @@ function App() {
         <Route path="/plans" element={<Plans />} />
         <Route path="/chart" element={<Chart />} />
         <Route path="/ui/alerts" element={<Alerts />} />
-      <Route path="/ui/buttons" element={<Buttons />} />
+        <Route path="/ui/buttons" element={<Buttons />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
     </>

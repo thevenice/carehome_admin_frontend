@@ -71,7 +71,7 @@ const CaregiverCreateUpdateForm: React.FC = () => {
         delete dataToSend.createdAt
         delete dataToSend.updatedAt
         delete dataToSend.__v
-        setFormData(response.data.data)
+        setFormData(dataToSend)
       } else {
         console.error('Error:', response.data)
       }

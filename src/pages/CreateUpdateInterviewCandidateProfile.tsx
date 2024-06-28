@@ -23,6 +23,7 @@ interface Reference {
 }
 
 interface InterviewCandidateInfo {
+  file: File | null
   contactNumber: string
   address: string
   desiredPosition: string
@@ -46,7 +47,9 @@ interface InterviewCandidateInfo {
 const InterviewCandidateUpdateForm: React.FC = () => {
   const { userId } = useParams<{ userId: string }>()
   const [previewFile, setPreviewFile] = useState<string | null>(null)
+  const [errors, setErrors] = useState<any>({})
   const [formData, setFormData] = useState<InterviewCandidateInfo>({
+    file: null as File | null,
     contactNumber: '',
     address: '',
     desiredPosition: '',
@@ -85,7 +88,17 @@ const InterviewCandidateUpdateForm: React.FC = () => {
         `/admin/interview-candidates?userId=${userId}`,
       )
       if (response.data.success) {
-        setFormData(response.data.data)
+        const dataToSend = response.data.data
+        delete dataToSend._id
+        delete dataToSend.userId
+        delete dataToSend.createdAt
+        delete dataToSend.updatedAt
+        delete dataToSend.__v
+        if(dataToSend.references.length > 1){        
+          await dataToSend.references.map((reference:any)=>{
+          delete reference._id
+        })}
+        setFormData(dataToSend)
       } else {
         console.error('Error:', response.data)
       }
@@ -184,32 +197,103 @@ const InterviewCandidateUpdateForm: React.FC = () => {
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
+    console.log(file)
     if (file) {
       setFormData((prevState) => ({
         ...prevState,
         file: file,
       }))
-
+  
       // Create object URL for previewing the file
       const objectUrl = URL.createObjectURL(file)
       setPreviewFile(objectUrl)
     }
   }
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault()
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  
+    // Basic form validation
+    let validationErrors: { [key: string]: string } = {};
+    if (!formData.contactNumber) {
+      validationErrors.contactNumber = 'Contact number is required';
+    }
+    // Add more validations as needed
+  
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+  
     try {
+      const dataToSend = new FormData();
+  
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === 'file') {
+          if (value instanceof File) {
+            dataToSend.append('file', value, value.name);
+            // dataToSend.append('fileContentType', value.type);
+          }
+        }
+        else if (key === 'resumeUrl') {
+
+        }
+        else if (key === 'availability') {
+          // Handle availability separately
+          if (Array.isArray(value.days)) {
+            value.days.forEach((day:any, index:any) => {
+              dataToSend.append(`availability[days][${index}]`, day);
+            });
+          }
+          if (Array.isArray(value.timeSlots)) {
+            value.timeSlots.forEach((slot:any, index:any) => {
+              dataToSend.append(`availability[timeSlots][${index}]`, slot);
+            });
+          }
+        } else if (Array.isArray(value)) {
+          // Handle arrays
+          value.forEach((item, index) => {
+            if (typeof item === 'object' && item !== null) {
+              Object.entries(item).forEach(([nestedKey, nestedValue]) => {
+                dataToSend.append(`${key}[${index}][${nestedKey}]`, String(nestedValue));
+              });
+            } else {
+              dataToSend.append(`${key}[${index}]`, String(item));
+            }
+          });
+        } else if (typeof value === 'object' && value !== null) {
+          // Handle nested objects
+          Object.entries(value).forEach(([nestedKey, nestedValue]) => {
+            dataToSend.append(`${key}[${nestedKey}]`, String(nestedValue));
+          });
+        } else {
+          // Handle primitive values
+          dataToSend.append(key, String(value));
+        }
+      });
+      // for (let [key, value] of dataToSend.entries()) {
+      //   console.log(key, value);
+      // }
       const response = await axiosInstance.put(
         `/admin/interview-candidates/${userId}`,
-        formData,
-      )
-      console.log('Update successful:', response.data)
-      alert('Interview candidate info updated successfully')
+        dataToSend,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+  
+      alert('Interview candidate info updated successfully');
+  
+      // Optionally refresh data or reset form
+      fetchInterviewCandidate();
+  
     } catch (error) {
-      console.error('Error updating interview candidate:', error)
-      alert('Failed to update interview candidate info')
+      console.error('Error updating interview candidate:', error);
+      alert('Failed to update interview candidate info');
     }
-  }
+  };
 
   return (
     <DefaultLayout>

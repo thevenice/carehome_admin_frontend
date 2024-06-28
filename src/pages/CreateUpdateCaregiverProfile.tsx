@@ -145,8 +145,8 @@ const CaregiverCreateUpdateForm: React.FC = () => {
     index: string | number,
   ) => {
     const { value } = e.target
-    setFormData((prevState) => {
-      const updatedArray = [...prevState[parentKey][key]]
+    setFormData((prevState:any) => {
+      const updatedArray:any = [...prevState[parentKey][key]]
       updatedArray[index] = value
       return {
         ...prevState,
@@ -162,7 +162,7 @@ const CaregiverCreateUpdateForm: React.FC = () => {
     parentKey: string | number,
     key: string | number,
   ) => {
-    setFormData((prevState) => ({
+    setFormData((prevState:any) => ({
       ...prevState,
       [parentKey]: {
         ...prevState[parentKey],
@@ -176,7 +176,7 @@ const CaregiverCreateUpdateForm: React.FC = () => {
     key: string | number,
     index: any,
   ) => {
-    setFormData((prevState) => {
+    setFormData((prevState:any) => {
       const updatedArray = prevState[parentKey][key].filter(
         (_: any, i: any) => i !== index,
       )

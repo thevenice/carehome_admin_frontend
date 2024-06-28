@@ -44,7 +44,8 @@ interface InterviewCandidateInfo {
 }
 
 const InterviewCandidateUpdateForm: React.FC = () => {
-  const { id } = useParams<{ id: string }>()
+  const { userId } = useParams<{ userId: string }>()
+  const [previewFile, setPreviewFile] = useState<string | null>(null)
   const [formData, setFormData] = useState<InterviewCandidateInfo>({
     contactNumber: '',
     address: '',
@@ -81,7 +82,7 @@ const InterviewCandidateUpdateForm: React.FC = () => {
   const fetchInterviewCandidate = async () => {
     try {
       const response = await axiosInstance.get(
-        `/admin/interview-candidates?userId=${id}`,
+        `/admin/interview-candidates?userId=${userId}`,
       )
       if (response.data.success) {
         setFormData(response.data.data)
@@ -181,11 +182,25 @@ const InterviewCandidateUpdateForm: React.FC = () => {
   };
 
 
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      setFormData((prevState) => ({
+        ...prevState,
+        file: file,
+      }))
+
+      // Create object URL for previewing the file
+      const objectUrl = URL.createObjectURL(file)
+      setPreviewFile(objectUrl)
+    }
+  }
+
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault()
     try {
       const response = await axiosInstance.put(
-        `/admin/interview-candidates/${id}`,
+        `/admin/interview-candidates/${userId}`,
         formData,
       )
       console.log('Update successful:', response.data)
@@ -537,7 +552,7 @@ const InterviewCandidateUpdateForm: React.FC = () => {
                 </div>
 
                 {/* Resume URL */}
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <label htmlFor="resumeUrl" className="block text-sm font-medium text-gray-700">
                     Resume URL
                   </label>
@@ -549,6 +564,53 @@ const InterviewCandidateUpdateForm: React.FC = () => {
                     onChange={handleChange}
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
+                </div> */}
+
+                <div className="mb-4">
+                  <label
+                    htmlFor="file"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Upload Resume File
+                  </label>
+                  <div className="mt-2 flex items-center">
+                    <input
+                      type="file"
+                      id="file"
+                      name="file"
+                      accept=".pdf, .docx, .txt, .jpeg, .png"
+                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                      onChange={handleFileChange}
+                    />
+                  </div>
+                  {previewFile && (
+                    <>
+                      <div className="mt-2">
+                        {previewFile && (
+                          <iframe src={previewFile} width="600" height="400" />
+                        )}
+                        {!previewFile && <p>No preview available.</p>}
+                      </div>
+                      <div className="mt-2">
+                        <a
+                          href={previewFile}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-500"
+                        >
+                          Preview file full screen
+                        </a>
+                      </div>
+                    </>
+                  )}
+                  {!previewFile && formData.resumeUrl && (
+                    <div className="mt-2">
+                      {formData.resumeUrl && (
+                        <iframe src={formData.resumeUrl} width="600" height="400" />
+                      )}
+                      {!formData.resumeUrl && <p>No preview available.</p>}
+                    </div>
+                  )}
                 </div>
 
                 {/* Current Employment Status */}

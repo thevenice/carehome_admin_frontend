@@ -31,6 +31,7 @@ import DocumentProfile from './pages/DocumentProfile'
 import CreateDocumentProfile from './pages/CreateDocumentProfile'
 import UpdateDocumentProfile from './pages/UpdateDocumentProfile'
 import CreateUpdateResidentProfile from './pages/createUpdateResidentProfile'
+import InterviewCandidateUpdateForm from './pages/CreateUpdateInterviewCandidateProfile'
 
 //
 // import PlanDetails from './pages/PlanDetails'
@@ -185,7 +186,7 @@ function App() {
           element={protectedRoute(
             <>
               <PageTitle title="Update Interview Candidate | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <CreateUpdateResidentProfile />
+              <InterviewCandidateUpdateForm />
             </>,
           )}
         />

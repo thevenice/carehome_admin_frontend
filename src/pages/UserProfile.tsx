@@ -34,6 +34,9 @@ import {
   faFileAlt,
   faFolder,
   faPills,
+  faDollarSign,
+  faHourglassHalf,
+  faMapMarkerAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import axiosInstance from '../utils/axios'
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
@@ -92,6 +95,7 @@ const UserProfile: React.FC = () => {
           url = `/admin/caregivers?userId=${user_id_data}`
           break
         case 'INTERVIEW_CANDIDATE':
+          url = `/admin/interview-candidates?userId=${user_id_data}`
           // Define URL for INTERVIEW_CANDIDATE (if applicable)
           break
         case 'ADMINISTRATOR':
@@ -174,6 +178,9 @@ const UserProfile: React.FC = () => {
   }
   const handleCreateUpdateResident = (userId: string) => {
     navigate(`/users/residents/create-update/${userId}`)
+  }
+  const handleCreateUpdateInterviewCandidate = (userId: string) => {
+    navigate(`/users/interview-candidates/create-update/${userId}`)
   }
 
   return (
@@ -264,7 +271,7 @@ const UserProfile: React.FC = () => {
                     userData.data.role == 'HEALTHCARE_PROFESSIONAL' && (
                       <div className="mt-3.5">
                         <h4 className="mb-3.5 font-medium text-black dark:text-white">
-                          PROFILE INFO:
+                          PROFILE INFO: HEALTHCARE_PROFESSIONAL
                         </h4>
                         <div className="flex justify-center mt-6 mb-2">
                           <button
@@ -284,7 +291,7 @@ const UserProfile: React.FC = () => {
                   {userData && userData.data.role == 'CAREGIVER' && (
                     <div className="mt-3.5">
                       <h4 className="mb-3.5 font-medium text-black dark:text-white">
-                        PROFILE INFO:
+                        PROFILE INFO: CAREGIVER
                       </h4>
                       <div className="flex justify-center mt-6 mb-2">
                         <button
@@ -302,7 +309,7 @@ const UserProfile: React.FC = () => {
                   {userData && userData.data.role == 'RESIDENT' && (
                     <div className="mt-3.5">
                       <h4 className="mb-3.5 font-medium text-black dark:text-white">
-                        PROFILE INFO:
+                        PROFILE INFO: RESIDENT
                       </h4>
                       <div className="flex justify-center mt-6 mb-2">
                         <button
@@ -313,6 +320,24 @@ const UserProfile: React.FC = () => {
                         >
                           <FontAwesomeIcon icon={faEdit} />
                           Create/Update Resident Profile
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                  {userData && userData.data.role == 'INTERVIEW_CANDIDATE' && (
+                    <div className="mt-3.5">
+                      <h4 className="mb-3.5 font-medium text-black dark:text-white">
+                        PROFILE INFO: INTERVIEW_CANDIDATE
+                      </h4>
+                      <div className="flex justify-center mt-6 mb-2">
+                        <button
+                          onClick={() =>
+                            handleCreateUpdateInterviewCandidate(userData.data._id)
+                          }
+                          className="flex items-center gap-1 text-sm font-medium text-white bg-blue-500 border border-blue-500 rounded px-3 py-1.5 hover:bg-blue-600"
+                        >
+                          <FontAwesomeIcon icon={faEdit} />
+                          Create/Update INTERVIEW_CANDIDATE Profile
                         </button>
                       </div>
                     </div>
@@ -570,6 +595,7 @@ const UserProfile: React.FC = () => {
                   ) : (
                     ''
                   )}
+
                   {/* Resident Profile Data */}
                   {userData &&
                   userData.data.role === 'RESIDENT' &&
@@ -732,6 +758,137 @@ const UserProfile: React.FC = () => {
                     ''
                   ) : userProfileData != null &&
                     userData.data.role === 'RESIDENT' ? (
+                    <div>Loading...</div>
+                  ) : (
+                    ''
+                  )}
+
+                  {/* Additional INTERVIEW_CANDIDATE Profile Data */}
+                  {userData &&
+                  userData.data.role == 'INTERVIEW_CANDIDATE' &&
+                  userProfileData ? (
+                    <div className="mt-3.5">
+                      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                        <CardCareHomeFields
+                          icon={faPhone}
+                          title="Contact Number"
+                          value={userProfileData.data.contactNumber}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faHome}
+                          title="Address"
+                          value={userProfileData.data.address}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faBriefcase}
+                          title="Desired Position"
+                          value={userProfileData.data.desiredPosition}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faCalendarAlt}
+                          title="Years of Experience"
+                          value={userProfileData.data.yearsOfExperience}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faAward}
+                          title="Qualifications"
+                          value={userProfileData.data.qualifications.join(', ')}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faBriefcase}
+                          title="Skills"
+                          value={userProfileData.data.skills.join(', ')}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faClock}
+                          title="Preferred Work Schedule"
+                          value={userProfileData.data.preferredWorkSchedule.join(', ')}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faMapMarkerAlt}
+                          title="Location Preferences"
+                          value={userProfileData.data.locationPreferences.join(', ')}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faLanguage}
+                          title="Languages Spoken"
+                          value={userProfileData.data.languagesSpoken.join(', ')}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faCertificate}
+                          title="Certifications"
+                          value={userProfileData.data.certifications.join(', ')}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faCalendarAlt}
+                          title="Availability Days"
+                          value={userProfileData.data.availability.days.join(', ')}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faClock}
+                          title="Availability Time Slots"
+                          value={userProfileData.data.availability.timeSlots.join(', ')}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faFileAlt}
+                          title="Resume"
+                          value={<a href={userProfileData.data.resumeUrl} target="_blank" rel="noopener noreferrer">View Resume</a>}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faBriefcase}
+                          title="Current Employment Status"
+                          value={userProfileData.data.currentEmploymentStatus}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faDollarSign}
+                          title="Expected Salary"
+                          value={`$${userProfileData.data.expectedSalary}`}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faHourglassHalf}
+                          title="Notice Period (days)"
+                          value={userProfileData.data.noticePeriod}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faUser}
+                          title="Emergency Contact Name"
+                          value={userProfileData.data.emergencyContact.name}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faUser}
+                          title="Emergency Contact Relationship"
+                          value={userProfileData.data.emergencyContact.relationship}
+                          RedirectComponent=""
+                        />
+                        <CardCareHomeFields
+                          icon={faPhone}
+                          title="Emergency Contact Phone Number"
+                          value={userProfileData.data.emergencyContact.phoneNumber}
+                          RedirectComponent=""
+                        />
+                      </div>
+                    </div>
+                  ) : userProfileData == null ? (
+                    ''
+                  ) : userProfileData != null &&
+                    userData.data.role == 'INTERVIEW_CANDIDATE' ? (
                     <div>Loading...</div>
                   ) : (
                     ''

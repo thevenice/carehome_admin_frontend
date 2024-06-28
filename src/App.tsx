@@ -181,6 +181,15 @@ function App() {
           )}
         />
         <Route
+          path="/users/interview-candidates/create-update/:userId"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Update Interview Candidate | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <CreateUpdateResidentProfile />
+            </>,
+          )}
+        />
+        <Route
           path="/users/update/:userId"
           element={protectedRoute(
             <>

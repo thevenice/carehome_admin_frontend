@@ -30,7 +30,7 @@ import Documents from './pages/Documents'
 import DocumentProfile from './pages/DocumentProfile'
 import CreateDocumentProfile from './pages/CreateDocumentProfile'
 import UpdateDocumentProfile from './pages/UpdateDocumentProfile'
-import CreateUpdateResidentProfile from './pages/createUpdateResidentProfile'
+import CreateUpdateResidentProfile from './pages/CreateUpdateResidentProfile'
 import InterviewCandidateUpdateForm from './pages/CreateUpdateInterviewCandidateProfile'
 
 //

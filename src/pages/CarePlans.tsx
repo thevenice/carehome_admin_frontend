@@ -1,17 +1,17 @@
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
-import PlansTable from '../components/Tables/PlansTable'
+import CarePlanTable from '../components/Tables/CarePlansTable'
 import DefaultLayout from '../layout/DefaultLayout'
 
-const Plans = () => {
+const CarePlans = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Plans" />
+      <Breadcrumb pageName="CarePlans" />
 
       <div className="flex flex-col gap-10">
-        <PlansTable />
+        <CarePlanTable />
       </div>
     </DefaultLayout>
   )
 }
 
-export default Plans
+export default CarePlans

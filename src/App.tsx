@@ -20,10 +20,8 @@ import CareHomes from './pages/CareHomes'
 import Chart from './pages/Chart'
 import FormElements from './pages/Form/FormElements'
 import FormLayout from './pages/Form/FormLayout'
-import Plans from './pages/Plans'
 import Alerts from './pages/UiElements/Alerts'
 import Buttons from './pages/UiElements/Buttons'
-import PlanDetails from './pages/PlanDetails'
 import CaregiverCreateUpdateForm from './pages/CreateUpdateCaregiverProfile'
 import HealthcareProfessionalUpdateForm from './pages/CreateUpdateHealthcareProfessionalProfile'
 import Documents from './pages/Documents'
@@ -32,6 +30,8 @@ import CreateDocumentProfile from './pages/CreateDocumentProfile'
 import UpdateDocumentProfile from './pages/UpdateDocumentProfile'
 import CreateUpdateResidentProfile from './pages/CreateUpdateResidentProfile'
 import InterviewCandidateUpdateForm from './pages/CreateUpdateInterviewCandidateProfile'
+import CarePlanProfile from './pages/CarePlanProfile'
+import CarePlans from './pages/CarePlans'
 
 //
 // import PlanDetails from './pages/PlanDetails'
@@ -133,6 +133,15 @@ function App() {
             <>
               <PageTitle title="Users Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <UserProfile />
+            </>,
+          )}
+        />
+        <Route
+          path="/care-plans/:plan_id"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Care Plan Profile Profile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <CarePlanProfile />
             </>,
           )}
         />
@@ -253,26 +262,12 @@ function App() {
             </>,
           )}
         />
-        {/* Plans Routes start */}
-        <Route
-          path="/plans/:plan_id"
-          element={
-            token ? ( // Only render CareHomeProfile if signed in
-              <>
-                {console.log('token', token)}
-                <PageTitle title="CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-                <PlanDetails />
-              </>
-            ) : (
-              <Navigate to="/" replace={true} /> // Redirect to "/" if token is not found or null
-            )
-          }
-        />
+
         {/* Public routes (accessible without login) */}
         <Route path="/forms/form-elements" element={<FormElements />} />
         <Route path="/forms/form-layout" element={<FormLayout />} />
         <Route path="/carehomes" element={<CareHomes />} />
-        <Route path="/plans" element={<Plans />} />
+        <Route path="/care-plans" element={<CarePlans />} />
         <Route path="/chart" element={<Chart />} />
         <Route path="/ui/alerts" element={<Alerts />} />
         <Route path="/ui/buttons" element={<Buttons />} />

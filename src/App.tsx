@@ -32,6 +32,7 @@ import CreateUpdateResidentProfile from './pages/CreateUpdateResidentProfile'
 import InterviewCandidateUpdateForm from './pages/CreateUpdateInterviewCandidateProfile'
 import CarePlanProfile from './pages/CarePlanProfile'
 import CarePlans from './pages/CarePlans'
+import CarePlanUpdateForm from './pages/CreateUpdateCarePlan'
 
 //
 // import PlanDetails from './pages/PlanDetails'
@@ -169,6 +170,15 @@ function App() {
             <>
               <PageTitle title="Update CareHomeProfile | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <CaregiverCreateUpdateForm />
+            </>,
+          )}
+        />
+        <Route
+          path="/care-plans/update/:planId"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Update Care Plans | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <CarePlanUpdateForm />
             </>,
           )}
         />

@@ -23,7 +23,9 @@ interface CarePlan {
   minimumStayPeriod: number
   cancellationPolicy: string
   isActive: boolean
-  documentUrl: string
+  featuredImageLink: string
+  mediaLinks: string[]
+  planPdfLink: string
 }
 
 const CarePlanUpdateForm: React.FC = () => {
@@ -43,8 +45,13 @@ const CarePlanUpdateForm: React.FC = () => {
     minimumStayPeriod: 1,
     cancellationPolicy: '',
     isActive: true,
-    documentUrl: '',
+    featuredImageLink: '',
+    mediaLinks: [],
+    planPdfLink: '',
   })
+  const [featuredImage, setFeaturedImage] = useState<File | null>(null)
+  const [mediaImages, setMediaImages] = useState<File[]>([])
+  const [planPdf, setPlanPdf] = useState<File | null>(null)
 
   useEffect(() => {
     fetchCarePlanData()
@@ -71,6 +78,19 @@ const CarePlanUpdateForm: React.FC = () => {
       ...prevState,
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value,
     }))
+  }
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, files } = e.target
+    if (files) {
+      if (name === 'featuredImage') {
+        setFeaturedImage(files[0])
+      } else if (name === 'mediaImages') {
+        setMediaImages(Array.from(files))
+      } else if (name === 'planPdf') {
+        setPlanPdf(files[0])
+      }
+    }
   }
 
   const handleArrayChange = (
@@ -128,7 +148,41 @@ const CarePlanUpdateForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     try {
-      const response = await axiosInstance.put(`/admin/plans/${planId}`, formData)
+      // Create a copy of the formData
+      const formDataToSend:any = { ...formData }
+  
+      // Remove _id from each service
+      formDataToSend.services = formDataToSend.services.map(({ _id, ...rest }) => rest)
+  
+      // Remove fields not in the schema
+      delete formDataToSend._id
+      delete formDataToSend.featuredImageLink
+      delete formDataToSend.mediaLinks
+      delete formDataToSend.planPdfLink
+      delete formDataToSend.createdAt
+      delete formDataToSend.updatedAt
+      delete formDataToSend.__v
+  
+      const formDataObj = new FormData()
+      formDataObj.append('data', JSON.stringify(formDataToSend))
+      
+      if (featuredImage) {
+        formDataObj.append('featuredImage', featuredImage)
+      }
+      
+      mediaImages.forEach((image) => {
+        formDataObj.append('mediaImages', image)
+      })
+      
+      if (planPdf) {
+        formDataObj.append('planPdf', planPdf)
+      }
+  
+      const response = await axiosInstance.put(`/admin/plans/${planId}`, formDataObj, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
       alert('Care plan updated successfully')
       console.log('Care plan updated:', response.data)
     } catch (error) {
@@ -430,34 +484,79 @@ const CarePlanUpdateForm: React.FC = () => {
                     </label>
                   </div>
   
-                  {/* Document URL */}
-                  <div className="mb-4">
-                    <label htmlFor="documentUrl" className="block text-sm font-medium text-gray-700">
-                      Document URL
-                    </label>
-                    <input
-                      type="url"
-                      id="documentUrl"
-                      name="documentUrl"
-                      value={formData.documentUrl}
-                      onChange={handleChange}
-                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
-                    />
+
+                {/* Featured Image */}
+                <div className="mb-4">
+                  <label htmlFor="featuredImage" className="block text-sm font-medium text-gray-700">
+                    Featured Image
+                  </label>
+                  <input
+                    type="file"
+                    id="featuredImage"
+                    name="featuredImage"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  />
+                  {formData.featuredImageLink && (
+                    <img src={formData.featuredImageLink} alt="Featured" className="mt-2 h-20 w-20 object-cover" />
+                  )}
+                </div>
+
+                {/* Media Images */}
+                <div className="mb-4">
+                  <label htmlFor="mediaImages" className="block text-sm font-medium text-gray-700">
+                    Media Images
+                  </label>
+                  <input
+                    type="file"
+                    id="mediaImages"
+                    name="mediaImages"
+                    accept="image/*"
+                    multiple
+                    onChange={handleFileChange}
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  />
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {formData.mediaLinks.map((link, index) => (
+                      <img key={index} src={link} alt={`Media ${index + 1}`} className="h-20 w-20 object-cover" />
+                    ))}
                   </div>
-  
-                  <button
-                    type="submit"
-                    className="w-full rounded-lg bg-primary py-3 px-5 text-white transition hover:bg-opacity-90"
-                  >
-                    Update Care Plan
-                  </button>
-                </form>
-              </div>
+                </div>
+
+                {/* Plan PDF */}
+                <div className="mb-4">
+                  <label htmlFor="planPdf" className="block text-sm font-medium text-gray-700">
+                    Plan PDF
+                  </label>
+                  <input
+                    type="file"
+                    id="planPdf"
+                    name="planPdf"
+                    accept=".pdf"
+                    onChange={handleFileChange}
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
+                  />
+                  {formData.planPdfLink && (
+                    <a href={formData.planPdfLink} target="_blank" rel="noopener noreferrer" className="mt-2 text-blue-600 hover:underline">
+                      View Current PDF
+                    </a>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  className="w-full rounded-lg bg-primary py-3 px-5 text-white transition hover:bg-opacity-90"
+                >
+                  Update Care Plan
+                </button>
+              </form>
             </div>
           </div>
         </div>
-      </DefaultLayout>
-    )
-  }
-  
-  export default CarePlanUpdateForm
+      </div>
+    </DefaultLayout>
+  )
+}
+
+export default CarePlanUpdateForm

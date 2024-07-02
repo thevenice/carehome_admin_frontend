@@ -183,6 +183,15 @@ function App() {
           )}
         />
         <Route
+          path="/care-plans/create"
+          element={protectedRoute(
+            <>
+              <PageTitle title="Create Care Plans | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <CarePlanUpdateForm />
+            </>,
+          )}
+        />
+        <Route
           path="/users/healthcareProffesional/create-update/:userId"
           element={protectedRoute(
             <>

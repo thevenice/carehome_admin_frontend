@@ -177,12 +177,20 @@ const CarePlanUpdateForm: React.FC = () => {
       if (planPdf) {
         formDataObj.append('planPdf', planPdf)
       }
-  
-      const response = await axiosInstance.put(`/admin/plans/${planId}`, formDataObj, {
+      let response:any
+      if (planId){
+        response = await axiosInstance.put(`/admin/plans/${planId}`, formDataObj, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       })
+    } else {
+      response = await axiosInstance.post(`/admin/plans`, formDataObj, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+      }
       alert('Care plan updated successfully')
       console.log('Care plan updated:', response.data)
     } catch (error) {

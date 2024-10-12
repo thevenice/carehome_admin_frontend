@@ -13,15 +13,7 @@ import UpdateUserProfileForm from './pages/UpdateUserProfile'
 import CreateUserProfile from './pages/CreateUserProfile'
 import UpdateCompanyInfo from './pages/UpdateCompanyInfo'
 import useStore from './store/store'
-import ECommerce from './pages/Dashboard'
 import Dashboard from './pages/Dashboard'
-import Settings from './pages/Settings'
-import CareHomes from './pages/CareHomes'
-import Chart from './pages/Chart'
-import FormElements from './pages/Form/FormElements'
-import FormLayout from './pages/Form/FormLayout'
-import Alerts from './pages/UiElements/Alerts'
-import Buttons from './pages/UiElements/Buttons'
 import CaregiverCreateUpdateForm from './pages/CreateUpdateCaregiverProfile'
 import HealthcareProfessionalUpdateForm from './pages/CreateUpdateHealthcareProfessionalProfile'
 import Documents from './pages/Documents'
@@ -33,21 +25,6 @@ import InterviewCandidateUpdateForm from './pages/CreateUpdateInterviewCandidate
 import CarePlanProfile from './pages/CarePlanProfile'
 import CarePlans from './pages/CarePlans'
 import CarePlanUpdateForm from './pages/CreateUpdateCarePlan'
-
-//
-// import PlanDetails from './pages/PlanDetails'
-// import Settings from './pages/Settings'
-// import CareHomes from './pages/CareHomes'
-// import Plans from './pages/Plans'
-// import Alerts from './pages/UiElements/Alerts'
-// import Buttons from './pages/UiElements/Buttons'
-// import SignUp from './pages/Authentication/SignUp'
-// import Calendar from './pages/Calendar'
-// import Chart from './pages/Chart'
-// import ECommerce from './pages/Dashboard/ECommerce'
-// import FormElements from './pages/Form/FormElements'
-// import FormLayout from './pages/Form/FormLayout'
-//
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true)

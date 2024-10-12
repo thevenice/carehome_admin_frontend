@@ -110,24 +110,7 @@ const DropdownUser = () => {
               My Profile
             </Link>
           </li>
-          <li>
-            <Link
-              to="#"
-              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
-            >
-              <FontAwesomeIcon icon={faAddressBook} className="fill-current" />
-              My Contacts
-            </Link>
-          </li>
-          <li>
-            <Link
-              to="/pages/settings"
-              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
-            >
-              <FontAwesomeIcon icon={faCog} className="fill-current" />
-              My Settings
-            </Link>
-          </li>
+
         </ul>
         <div className="px-6 py-4">
           <Signout>

@@ -282,15 +282,8 @@ function App() {
           )}
         />
 
-        {/* Public routes (accessible without login) */}
-        <Route path="/forms/form-elements" element={<FormElements />} />
-        <Route path="/forms/form-layout" element={<FormLayout />} />
-        <Route path="/carehomes" element={<CareHomes />} />
-        <Route path="/care-plans" element={<CarePlans />} />
-        <Route path="/chart" element={<Chart />} />
-        <Route path="/ui/alerts" element={<Alerts />} />
-        <Route path="/ui/buttons" element={<Buttons />} />
-        <Route path="/settings" element={<Settings />} />
+<Route path="/care-plans" element={<CarePlans />} />
+
       </Routes>
     </>
   )
